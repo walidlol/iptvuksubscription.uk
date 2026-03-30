@@ -1,0 +1,712 @@
+@import "tailwindcss";
+
+/* ============================================================
+   IPTV UK Subscription — Design System Tokens
+   Dark Signal Aesthetic — Tailwind v4 @theme
+   ============================================================ */
+
+@theme {
+  /* --- Color Palette: Brand Signal Red / Cinematic Black --- */
+
+  /* Backgrounds */
+  --color-bg-base:      #0A0A0A;
+  --color-bg-surface:   #111111;
+  --color-bg-elevated:  #1A1A1A;
+
+  /* Accent: Brand Red (#E8392A — extracted from logo) */
+  --color-accent-red:         #E8392A;
+  --color-accent-red-dark:    #B52B1F;
+  --color-accent-red-light:   #FF4433;
+  --color-accent-red-glow:    rgba(232,57,42,0.3);
+
+  /* Brand aliases */
+  --color-brand-red:       #E8392A;
+  --color-brand-red-dark:  #B52B1F;
+  --color-brand-red-glow:  rgba(232,57,42,0.3);
+  --color-brand-black:     #0A0A0A;
+  --color-brand-surface:   #111111;
+  --color-brand-surface-2: #1A1A1A;
+  --color-brand-text:      #F5F5F5;
+  --color-brand-muted:     #9CA3AF;
+
+  /* Text */
+  --color-text-primary: #F5F5F5;
+  --color-text-muted:   #9CA3AF;
+  --color-text-faint:   #374151;
+
+  /* Borders */
+  --color-border:       rgba(255,255,255,0.08);
+  --color-border-hover: rgba(255,255,255,0.16);
+
+  /* UI Semantic */
+  --color-success:  #E8392A;
+  --color-warning:  #F59E0B;
+  --color-error:    #EF4444;
+  --color-info:     #3B82F6;
+
+  /* --- Typography --- */
+
+  /* Display: Broadcast identity */
+  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
+
+  /* Display alt: editorial/blog */
+  --font-serif: "DM Serif Display", Georgia, serif;
+
+  /* Body: maximum legibility */
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Mono: prices, counts */
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  /* UI: nav, buttons, labels */
+  --font-ui: "Geist", "Inter", sans-serif;
+
+  /* --- Z-Axis Layers --- */
+  --z-noise:    0;
+  --z-blobs:    10;
+  --z-content:  20;
+  --z-cards:    30;
+  --z-nav:      40;
+  --z-modal:    50;
+  --z-toast:    60;
+
+  /* --- Border Radius --- */
+  --radius-card: 1rem;
+  --radius-btn:  0.5rem;
+  --radius-pill: 9999px;
+}
+
+/* ============================================================
+   CSS Custom Properties (runtime, not Tailwind tokens)
+   ============================================================ */
+:root {
+  /* Glassmorphism */
+  --glass-bg:     rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur:   12px;
+
+  /* Red glow for box-shadow composition */
+  --glow-red:    rgba(232, 57, 42, 0.3);
+  --red-glow:    0 0 40px rgba(232,57,42,0.4);
+  --red-glow-lg: 0 0 80px rgba(232,57,42,0.35), 0 0 30px rgba(232,57,42,0.2);
+
+  /* Scrollbar */
+  scrollbar-color: #E8392A #111111;
+  scrollbar-width: thin;
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   Base Resets & Globals
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* CustomCursor — hide native on desktop */
+  cursor: none;
+}
+
+/* Restore native cursor on touch devices */
+@media (hover: none) {
+  html { cursor: auto; }
+}
+
+body {
+  background-color: #0A0A0A;
+  color: #F5F5F5;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Film grain noise overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Global heading typography ── */
+h1 {
+  font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+  letter-spacing: 0.02em;
+  line-height: 0.95;
+}
+
+h2 {
+  font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* ── cursor-pointer restore — interactive elements ── */
+a, button, [role="button"], label, select {
+  cursor: none;
+}
+@media (hover: none) {
+  a, button, [role="button"], label, select { cursor: auto; }
+}
+
+/* ============================================================
+   Selection Colour
+   ============================================================ */
+::selection {
+  background-color: rgba(232, 57, 42, 0.35);
+  color: #F5F5F5;
+}
+
+/* ============================================================
+   Focus Styles (WCAG 2.1)
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid #E8392A;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Typography Utilities
+   ============================================================ */
+
+.font-display { font-family: "Bebas Neue", "Arial Narrow", sans-serif; }
+.font-serif   { font-family: "DM Serif Display", Georgia, serif; }
+.font-ui      { font-family: "Geist", "Inter", sans-serif; }
+
+/* Fluid hero sizing — Step 6 responsive clamp */
+.text-hero    {
+  font-size: clamp(3rem, 9vw, 8rem);
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+.text-display {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+/* ============================================================
+   Glassmorphism Card Base
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.glass-hover {
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+.glass-hover:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(232, 57, 42, 0.15);
+}
+
+/* ============================================================
+   Red Glow Button Base
+   ============================================================ */
+.btn-red {
+  background-color: #E8392A;
+  color: #F5F5F5;
+  font-family: "Geist", "Inter", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease,
+    transform 150ms ease;
+}
+.btn-red:hover {
+  background-color: #B52B1F;
+  box-shadow:
+    0 0 48px rgba(232, 57, 42, 0.5),
+    0 4px 24px rgba(232, 57, 42, 0.35);
+}
+
+/* ============================================================
+   Noise Texture Layer (z-0)
+   ============================================================ */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+/* ============================================================
+   Layout Helpers
+   ============================================================ */
+.section {
+  padding-block: clamp(5rem, 10vw, 9rem);
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 5vw, 2rem);
+}
+
+/* ============================================================
+   Scrollbar Styling
+   ============================================================ */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: #111111; }
+::-webkit-scrollbar-thumb  { background: #E8392A; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #FF4433; }
+
+/* ============================================================
+   Floating background orb animation (AnimatedBackground)
+   ============================================================ */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.04); }
+}
+
+/* ============================================================
+   Marquee animation — hero infinite scroll strip
+   ============================================================ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation-name: marquee;
+}
+
+/* ============================================================
+   Reduced Motion — disable all non-essential animations
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   Gradient Utilities
+   ============================================================ */
+.gradient-red-fade {
+  background: linear-gradient(135deg, rgba(232,57,42,0.18) 0%, transparent 60%);
+}
+
+.gradient-text-red {
+  background: linear-gradient(135deg, #FF4433, #E8392A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   Blob / Parallax Glow (z-10)
+   ============================================================ */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.blob-red  { background: rgba(232, 57, 42, 0.18); }
+.blob-dark { background: rgba(22, 24, 32, 0.8); }
+
+/* ============================================================
+   Badge Variants
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-family: "Geist", "Inter", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge-red     { background: rgba(232,57,42,0.15); color: #FF4433; border: 1px solid rgba(232,57,42,0.3); }
+.badge-popular { background: #E8392A; color: #F5F5F5; }
+.badge-new     { background: rgba(232,57,42,0.12); color: #FF4433; border: 1px solid rgba(232,57,42,0.3); }
+.badge-muted   { background: rgba(255,255,255,0.06); color: #9CA3AF; border: 1px solid rgba(255,255,255,0.1); }
+
+/* ============================================================
+   Divider
+   ============================================================ */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+/* ============================================================
+   Stat Counter
+   ============================================================ */
+.stat-number {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #E8392A;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: "Geist", "Inter", sans-serif;
+  font-size: 0.875rem;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.5rem;
+}
+
+/* Thin red underline accent used on stat items */
+.stat-underline {
+  display: block;
+  width: 2rem;
+  height: 2px;
+  background: #E8392A;
+  margin-top: 0.75rem;
+  border-radius: 1px;
+}
+
+/* ============================================================
+   Prose — long-form SEO content pages
+   ============================================================ */
+.prose-dark {
+  color: #F0F2F7;
+  max-width: 75ch;
+}
+
+.prose-dark h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  letter-spacing: 0.02em;
+  color: #F0F2F7;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.prose-dark h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #F0F2F7;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-dark p {
+  color: #9CA3AF;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+}
+
+.prose-dark a {
+  color: #E8392A;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose-dark strong { color: #F5F5F5; font-weight: 600; }
+
+
+/* ============================================================
+   Prose IPTV — blog article body typography
+   ============================================================ */
+.prose-iptv { color: #9CA3AF; line-height: 1.8; font-family: "Inter", system-ui, sans-serif; }
+.prose-iptv h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: 0.02em;
+  color: #F5F5F5;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid #E8392A;
+  padding-left: 0.75rem;
+}
+.prose-iptv h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #F0F2F7;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.prose-iptv p { margin-bottom: 1.25rem; }
+.prose-iptv a { color: #E8392A; text-decoration: underline; text-underline-offset: 3px; }
+.prose-iptv strong { color: #F5F5F5; font-weight: 600; }
+.prose-iptv ul, .prose-iptv ol { margin-bottom: 1.25rem; padding-left: 1.5rem; }
+.prose-iptv li { margin-bottom: 0.5rem; }
+.prose-iptv ul li::marker { color: #E8392A; }
+.prose-iptv blockquote {
+  border-left: 3px solid #E8392A;
+  padding-left: 1rem;
+  color: #F5F5F5;
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+.prose-iptv code {
+  background: rgba(232,57,42,0.12);
+  color: #FF4433;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.875em;
+}
+
+/* ============================================================
+   Anime.js — scroll-triggered initial states
+   Elements start invisible and are revealed by anime.js.
+   The @media override ensures users with reduced-motion
+   always see content immediately, even if JS hasn't run.
+   ============================================================ */
+
+/** Fade-up initial state — cards, stats, general sections */
+.anime-hidden {
+  opacity: 0;
+  transform: translateY(44px);
+}
+
+/** Slide-in-from-left initial state — section headings */
+.anime-slide-left {
+  opacity: 0;
+  transform: translateX(-52px);
+}
+
+/** Hero word initial state (inline-block required for transform) */
+.hw {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+/** Reduced-motion: always show content, never animate */
+@media (prefers-reduced-motion: reduce) {
+  .anime-hidden,
+  .anime-slide-left,
+  .hw {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   data-reveal — useScrollReveal hook animation system
+   Variants: data-reveal="fade-up" (default) | "fade-left" |
+             "fade-right" | "scale"
+   ============================================================ */
+
+[data-reveal],
+[data-reveal="fade-up"] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal="fade-left"] {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal="fade-right"] {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal="scale"] {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   Scroll Progress Bar — 2px red line at viewport top
+   ============================================================ */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: #E8392A;
+  z-index: 9998;
+  pointer-events: none;
+  transition: width 80ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #scroll-progress { display: none; }
+}
+
+/* ============================================================
+   Red section separator line
+   ============================================================ */
+.red-separator {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #E8392A;
+}
+
+/* ============================================================
+   Netflix-style card hover ring
+   ============================================================ */
+.card-netflix {
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 250ms ease,
+              z-index 0ms;
+}
+.card-netflix:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px #E8392A, var(--red-glow);
+  z-index: 10;
+}
+
+/* ============================================================
+   Channel name card — channels page
+   ============================================================ */
+.channel-card {
+  border-left: 3px solid #E8392A;
+  background: #1A1A1A;
+  transition: border-color 200ms, box-shadow 200ms, transform 200ms;
+}
+.channel-card:hover {
+  border: 1px solid #E8392A;
+  box-shadow: 0 0 20px rgba(232,57,42,0.2);
+  transform: scale(1.03);
+}
+
+/* ============================================================
+   Magnetic button base — used on primary CTAs
+   ============================================================ */
+.btn-magnetic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 200ms ease, transform 150ms ease;
+}
+.btn-magnetic:hover {
+  box-shadow: var(--red-glow);
+}
+
+/* ============================================================
+   FIX 7 — Premium hover effects
+   ============================================================ */
+
+/* Card lift — all interactive cards */
+.card-lift {
+  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 250ms ease;
+}
+.card-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(232,57,42,0.2);
+}
+
+/* Nav link — red underline slides in from left */
+.nav-underline {
+  position: relative;
+}
+.nav-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #E8392A;
+  transition: width 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-underline:hover::after,
+.nav-underline[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* CTA button — background slides in from left with ::before */
+.btn-slide {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+.btn-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #B52B1F;
+  transform: translateX(-100%);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+.btn-slide:hover::before {
+  transform: translateX(0);
+}
+
+/* Stat number pulse on reveal */
+@keyframes stat-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+.stat-pulse {
+  animation: stat-pulse 2s ease-in-out 1;
+}
+
+/* Logo subtle rotation on hover */
+.logo-hover {
+  transition: transform 300ms ease;
+}
+.logo-hover:hover {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+/* Footer social icon scale */
+.social-icon {
+  transition: transform 200ms ease, color 200ms ease;
+}
+.social-icon:hover {
+  transform: scale(1.2);
+  color: #E8392A;
+}
