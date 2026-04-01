@@ -1,0 +1,45 @@
+# IPTV UK Subscription — iptvuksubscription.uk
+
+## About
+IPTV UK Subscription is the UK's #1 premium IPTV streaming service. We provide over 30,000 live TV channels, 50,000+ movies and TV shows on demand, all in Full HD and 4K quality with 99.9% uptime.
+
+## Services
+- **Monthly Plan**: £9.99/mo — 30,000+ channels, Full HD & 4K, 1 device, 24/7 support
+- **Annual Plan**: £59/yr — Everything in Monthly + 2 devices, priority support, 50,000+ VOD library (Most Popular)
+- **Family Plan**: £129.99/yr — Everything in Annual + 4 devices, VIP support
+
+## Key Features
+- 30,000+ live TV channels including all major UK channels (BBC, ITV, Channel 4, Sky Sports, BT Sport)
+- Full Premier League, Champions League, and international sports coverage
+- 50,000+ movies and TV shows on demand
+- 4K Ultra HD streaming quality
+- 99.9% uptime guarantee
+- Compatible with Smart TV, Firestick, Android, iOS, Windows, Mac, MAG Box, Apple TV, Roku, Chromecast
+- EPG (Electronic Programme Guide) included
+- Instant activation via WhatsApp
+
+## Content Categories
+- UK Sports & Reality
+- UK Drama
+- Trending Movies
+- Kids & Family
+- International TV
+- News & Documentaries
+
+## Contact
+- WhatsApp: +44 7451 296412
+- Website: https://iptvuksubscription.uk
+
+## Pages
+- Homepage: https://iptvuksubscription.uk
+- Plans: https://iptvuksubscription.uk/plans
+- FAQ: https://iptvuksubscription.uk/faq
+- Blog: https://iptvuksubscription.uk/blog
+- Contact: https://iptvuksubscription.uk/contact
+- Setup Guide: https://iptvuksubscription.uk/setup-guide
+- Channels: https://iptvuksubscription.uk/channels
+
+## Technical
+- Built with Next.js, deployed on Vercel
+- UK-focused (.uk TLD) with en-GB localisation
+- Exact Match Domain for "IPTV UK Subscription"

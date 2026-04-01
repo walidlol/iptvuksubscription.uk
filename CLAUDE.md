@@ -1,166 +1,186 @@
 # CLAUDE.md — iptvuksubscription.uk
-> Read this file completely at the start of every session before touching any code.
-> Project started: March 2026 — Disney+ inspired redesign, fresh build.
+> Read this file completely before touching any code.
+> April 2026 — Liquid Glass design, fresh build.
 
 ---
 
 ## PROJECT IDENTITY
 
-**Site:** iptvuksubscription.uk  
-**Business:** Premium IPTV subscription service targeting the UK market  
-**Goal:** Rank #1 on Google UK for EMD keywords + deliver a Disney+ quality streaming platform experience  
-**Stack:** Next.js 14 (App Router) · TypeScript · Tailwind CSS · Framer Motion · Lenis  
-**Deployment:** GitHub → Vercel auto-deploy (NEVER Vercel CLI)  
-**OS:** Windows — all terminal commands must use PowerShell syntax  
-**Design Reference:** Disney+ (disneyplus.com/en-gb) — dark cinematic UI with category rows, hero banners, gated browse experience
+**Site:** iptvuksubscription.uk
+**Business:** Premium IPTV subscription service targeting the UK market
+**Goal:** Rank #1 on Google UK for EMD keywords. Deliver a liquid glass, fast, professional experience.
+**Stack:** Next.js 14 (App Router) · TypeScript · Tailwind CSS · Framer Motion · Lenis
+**Deployment:** GitHub → Vercel auto-deploy (NEVER Vercel CLI)
+**OS:** Windows — PowerShell syntax only
+**Design:** Liquid Glass — frosted translucent surfaces, neutral tones, Apple-tier polish. NOT Netflix. NOT generic dark streaming.
 
 ---
 
-## TARGET KEYWORDS (EMD Advantage)
+## TARGET KEYWORDS (EMD)
 
-| Keyword | Monthly Volume | Priority |
+| Keyword | Volume | Priority |
 |---|---|---|
 | iptv uk subscription | 12,000–22,000 | Primary |
 | iptv uk | 40,000–60,000 | Primary |
 | iptv subscription uk | 18,000–30,000 | Primary |
 
-Domain **iptvuksubscription.uk** is an Exact Match Domain. Every page must protect and leverage this.
-
 ---
 
-## DESIGN SYSTEM — DISNEY+ ADAPTATION
+## DESIGN SYSTEM — LIQUID GLASS
 
-### Aesthetic Direction
-Disney+ dark theme adapted for IPTV. Clean, cinematic, content-forward.  
-NOT Netflix chaos. NOT generic SaaS. Think: Disney+ structure + premium IPTV branding.
+### Aesthetic
+Apple Liquid Glass (iOS 26 style). Frosted translucent cards over cinematic backdrops. Clean, minimal, professional, FAST. No neon, no heavy gradients, no childish icons.
 
-### Brand Colours
+### Colours (Neutral + Glass)
 ```
---brand-red:        #E8392A     ← primary accent (logo red, replaces Disney+ blue)
---brand-red-hover:  #FF4436     ← hover states
---brand-red-glow:   rgba(232,57,42,0.3)
---bg-primary:       #0D0F18     ← main background (Disney+ deep navy-black)
---bg-surface:       #151929     ← card surfaces, rows
---bg-elevated:      #1A1F33     ← elevated cards, modals
---bg-hero:          #0A0C14     ← hero sections
---text-primary:     #F9F9F9     ← headings, primary text
---text-secondary:   #CACACA     ← body text, descriptions
---text-muted:       #7B7F8E     ← labels, timestamps
---border:           rgba(255,255,255,0.08) ← subtle dividers
+--bg-deep:             #08090C
+--bg-primary:          #0C0D12
+--bg-surface:          #12141A
+--bg-glass:            rgba(255,255,255,0.06)
+--bg-glass-hover:      rgba(255,255,255,0.10)
+--border-glass:        rgba(255,255,255,0.12)
+--border-glass-strong: rgba(255,255,255,0.20)
+--text-primary:        #F2F2F7
+--text-secondary:      #B8B8C0
+--text-muted:          #6E6E7A
+--accent:              #FFFFFF
+--glass-shadow:        0 8px 32px rgba(0,0,0,0.3)
+--glass-blur:          blur(20px)
+--glass-inner:         inset 0 1px 0 0 rgba(255,255,255,0.15)
 ```
+
+### NO red as primary. Red only for:
+- Live sports badges (small red dot + "LIVE")
+- Error states
+- Logo icon accent (subtle)
+
+### Glass CSS Pattern
+```css
+.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 0 rgba(255,255,255,0.15);
+  border-radius: 16px;
+}
+```
+
+### LiquidGlass Component
+Wrapper with SVG distortion filter. Use on: Navbar, pricing cards, CTA buttons, login form, feature cards. Use SPARINGLY — not on every element.
 
 ### Typography
-- **Headings:** Bebas Neue — all H1, H2, section titles. Letter-spacing: 0.04em, uppercase
-- **Body/UI:** Inter — nav links, body text, buttons, labels. Weight 400/500/600
-- **Hero H1:** clamp(42px, 8vw, 80px)
-- **Section H2:** clamp(28px, 5vw, 48px)
-- **Body:** 15–16px, line-height 1.6
+- Headings: Bebas Neue — uppercase, letter-spacing 0.04em
+- Body/UI: Inter — weight 400/500/600
+- Hero H1: clamp(42px, 8vw, 80px)
+- Section H2: clamp(28px, 5vw, 48px)
+- Body: 15px, line-height 1.6
 
-### Logo
-- File: `/public/icon.png` (red circle icon)
-- Navbar: `<Image src="/icon.png" height={36} width={36} alt="IPTV UK Subscription" priority />`
+### Icons
+- lucide-react ONLY — Monitor, Laptop, Smartphone, Tv, Wifi, Shield, Zap, Globe, etc.
+- NO childish/cartoon icons ever
 
----
+### Animations (Framer Motion)
+- Page load: staggered fade-up (0.1s intervals)
+- Scroll: whileInView fade-up on sections
+- Cards: hover scale 1.03 + translateY(-4px) + glass brighten
+- Buttons: hover scale 1.02 + glow increase
+- Hero H1: NO delay — LCP element
+- Respect prefers-reduced-motion
 
-## DISNEY+ LAYOUT PATTERNS TO REPLICATE
-
-### 1. Navbar (all pages)
-- Fixed top, transparent → blur backdrop on scroll (like Disney+)
-- Logo left, nav links center, "Get IPTV UK" CTA button right (brand-red)
-- Mobile: hamburger → slide-in drawer from right
-- Links: Home, Plans, Channels*, Setup Guide*, FAQ, Blog
-- (* = gated, only visible after WhatsApp auth)
-
-### 2. Hero Section (homepage)
-- Full-width backdrop image from TMDB (trending movie/show)
-- Title overlay with gradient fade from bottom
-- CTA buttons: "Get Started — £9.99/mo" + "Free Trial via WhatsApp"
-- Trust line below: "30,000+ Channels · 4K Quality · 99.9% Uptime"
-
-### 3. Content Rows (Disney+ style)
-- Horizontal scroll rows with poster cards
-- Row title left-aligned with "See All >" link
-- Cards: 150×225px posters (TMDB w500), rounded-lg, hover scale 1.05 + shadow
-- Scroll snap on mobile, overflow-x-auto, hide scrollbar
-- Categories: UK Sports, UK Drama, Movies, Kids, International, News
-
-### 4. "Choose Your Plan" Section
-- 3 plan cards side by side (like Disney+ pricing toggle)
-- Monthly £9.99 / Annual £59 / Family £129.99
-- Popular card: elevated, red top border, slight scale
-- Each card → WhatsApp CTA button
-
-### 5. Device Compatibility Section
-- "Available on your favourite devices" heading
-- 4 device icons: TV, Computer, Mobile & Tablet, Streaming Devices
-- Listed supported devices under each icon
-
-### 6. FAQ Section
-- Accordion style, clean borders
-- FAQPage schema on every Q&A pair
-
-### 7. Footer
-- 4-column layout: Plans, IPTV UK, Support, Legal
-- Logo top-left, social links bottom
-- "© 2026 IPTV UK Subscription" bottom center
+### Cursor
+- Default system cursor — no custom cursor (performance)
 
 ---
 
-## GATED PAGES (WhatsApp OTP Auth)
+## CONTENT — THREE EQUAL PILLARS
 
-### How auth works:
-1. User clicks "Channels" or "Setup Guide" → redirected to `/login`
-2. User enters UK phone number → we send OTP code via WhatsApp Business API
-3. User enters 6-digit code → verified → session cookie set (7 days)
-4. Gated pages now accessible: `/channels`, `/setup-guide`, `/plans/advanced`
+### 1. LIVE SPORTS (HIGH PRIORITY)
+- Premier League fixtures via football-data.org
+- Match cards: team crests, scores, kickoff times, "LIVE" red dot
+- Channel list: Sky Sports, TNT Sports, BT Sport, BBC Sport
+- Env: `FOOTBALL_DATA_API_KEY`
 
-### Tech implementation:
-- Session: HTTP-only cookie with signed JWT (no external auth service)
-- Middleware: `middleware.ts` checks cookie on gated routes
-- WhatsApp OTP: API route sends message via WhatsApp Business API (or manual fallback: user messages the number, receives code)
-- Fallback if no WhatsApp API: simple code displayed on screen → "Send this code to our WhatsApp to verify"
+### 2. UK & WORLD NEWS
+- Trending headlines via NewsAPI
+- Cards: thumbnail, headline, source, time
+- Channels: BBC News, Sky News, ITV News, CNN, Al Jazeera
+- Env: `NEWS_API_KEY`
 
-### Gated pages:
-- `/channels` — Disney+ Marvel-page style: hero + category rows with real channel logos
-- `/setup-guide` — tabbed device setup (Firestick, Smart TV, Android, iOS, MAG)
-- `/plans/advanced` — detailed plan comparison + crypto checkout
+### 3. MOVIES & TV
+- TMDB trending posters/backdrops
+- Rows: Movies, UK Drama, Kids, International
+- Env: `TMDB_API_KEY`, `TMDB_READ_ACCESS_TOKEN`
 
-### Public pages (indexed by Google):
-- `/` — Homepage
-- `/pricing` — Basic pricing overview
-- `/faq` — Full FAQ
-- `/blog` + `/blog/[slug]` — SEO content
-- `/contact` — WhatsApp + email
-- `/login` — Auth page
+---
+
+## NAVBAR — ALWAYS GLASS
+
+Not transparent-then-blur. Glass from the start. Always visible over hero.
+```
+Position: fixed top
+Background: rgba(12,13,18,0.7) + backdrop-filter blur(20px)
+Border-bottom: 1px solid rgba(255,255,255,0.08)
+Logo left · nav links center (Inter 14px 500) · glass CTA right
+Mobile: hamburger → slide-in glass drawer
+Links: Home, Plans, Channels*, Setup*, FAQ, Blog (* gated)
+```
+
+---
+
+## LOGIN PAGE — VIDEO BACKGROUND
+
+- Full-screen looping video (compressed WebM, max 1.5MB)
+- Source: user's MP4 at `C:\Users\hp\Desktop\top-movies-and-tv-shows-2026-oscars.mp4`
+- Compress: `ffmpeg -i input.mp4 -vcodec libvpx-vp9 -b:v 500k -vf "scale=1280:-1" -an -t 15 -r 24 public/login-bg.webm`
+- Fallback: copy MP4 directly, lazy-load with preload="none"
+- Dark overlay rgba(0,0,0,0.6) over video
+- Centered LiquidGlass card: logo, tagline, phone input, OTP input, glass submit button
+- Video: autoplay, muted, loop, playsInline
+
+---
+
+## DEVICE SECTION
+
+"Watch on Any Device, Anywhere" heading.
+4 glass cards with lucide-react icons:
+- Smart TV (Tv icon): Samsung, LG, Sony, Android TV
+- Computer (Monitor icon): Windows, macOS, Chrome
+- Mobile & Tablet (Smartphone icon): iOS, Android, Fire Tablet
+- Streaming Devices (Wifi icon): Firestick, Roku, Apple TV, MAG Box, Chromecast
+
+---
+
+## HOMEPAGE SECTIONS (exact order)
+
+1. **HERO** — TMDB backdrop, gradient, H1, glass CTAs, trust line
+2. **STATS BAR** — 30,000+ Channels · 100,000+ Subs · 99.9% Uptime · 4K
+3. **LIVE SPORTS** — Premier League fixtures, glass match cards
+4. **CONTENT ROWS** — 4 TMDB rows: Movies, UK Drama, Kids, International
+5. **UK NEWS** — NewsAPI cards, thumbnail + headline
+6. **PRICING** — 3 glass cards: £9.99/mo · £59/yr · £129.99/yr family
+7. **DEVICES** — 4 glass device cards with lucide icons
+8. **FAQ** — 6 questions, glass accordion, FAQPage schema
+9. **FINAL CTA** — glass button, "Start Watching Today"
+10. **FOOTER** — 4-column, glass top border
+
+---
+
+## GATED PAGES (WhatsApp Auth)
+
+1. User clicks gated link → `/login`
+2. Video bg + glass form: phone input → OTP
+3. MVP: code shown on screen, user sends to WhatsApp to verify
+4. JWT cookie (7 days, httpOnly, secure)
+5. middleware.ts checks on: /channels, /setup-guide, /plans/advanced
 
 ---
 
 ## PAYMENTS
 
-### Primary: WhatsApp
-All plan cards have "Subscribe via WhatsApp" CTA → opens wa.me with pre-filled message.  
-WhatsApp number: `447451296412` (env var: `NEXT_PUBLIC_WHATSAPP_NUMBER`)
-
-### Secondary: Crypto (on-site)
-NOWPayments integration for Bitcoin/USDT/ETH checkout.
-- Modal triggered by "Pay with Crypto" button on pricing cards
-- API route: `/api/payment/create` → calls NOWPayments API
-- Webhook: `/api/payment/webhook` → confirms payment
-- Env var: `NOWPAYMENTS_API_KEY`
-
----
-
-## IMAGES — AUTOMATIC RULES
-
-### TMDB API (primary — movie/TV posters and backdrops)
-- Env vars: `TMDB_API_KEY`, `TMDB_READ_ACCESS_TOKEN`
-- Poster URL: `https://image.tmdb.org/t/p/w500{poster_path}`
-- Backdrop URL: `https://image.tmdb.org/t/p/original{backdrop_path}`
-- Always fetch server-side with `next: { revalidate: 3600 }`
-- Always use `<Image>` component, never `<img>`
-
-### Fallback
-CSS gradient placeholder matching brand colours. Never broken images or empty space.
+Primary: WhatsApp glass CTA → wa.me pre-filled message
+Secondary: NOWPayments crypto (BTC/USDT/ETH) in glass modal
+Env: `NOWPAYMENTS_API_KEY`
 
 ---
 
@@ -169,111 +189,25 @@ CSS gradient placeholder matching brand colours. Never broken images or empty sp
 ```
 TMDB_API_KEY=
 TMDB_READ_ACCESS_TOKEN=
+FOOTBALL_DATA_API_KEY=
+NEWS_API_KEY=
 NOWPAYMENTS_API_KEY=
+AUTH_SECRET=
 NEXT_PUBLIC_WHATSAPP_NUMBER=447451296412
 NEXT_PUBLIC_SITE_URL=https://iptvuksubscription.uk
 ```
 
-Copy values from old project: `C:\Users\hp\Desktop\iptvuksubscription\.env.local`  
-Mirror all vars in Vercel dashboard → Settings → Environment Variables.
+Generate AUTH_SECRET: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
 
 ---
 
-## SEO — GOOGLE TOP 200 FACTORS APPLIED
+## SEO — TOP 200 FACTORS
 
-### Domain Factors (1–9)
-- ✅ EMD: "iptvuksubscription" = exact match for "iptv uk subscription"
-- ✅ Keyword as first word in domain
-- ✅ .uk TLD for UK geo-targeting
-- Register domain for 2+ years (legitimacy signal)
-
-### Page-Level Factors (10–60)
-- Every page: keyword in title tag (front-loaded), H1, meta description, first 100 words
-- Content length: homepage 2,500+ words, FAQ 2,500+, blog posts 1,500+
-- Pricing page: 600–800 words MAX (conversion focus)
-- LSI keywords naturally: "live TV", "streaming", "UK channels", "Sky Sports", "Premier League"
-- Image optimization: descriptive filenames, keyword alt text, WebP/AVIF, explicit dimensions
-- Page speed: LCP < 2.5s, CLS < 0.1, INP < 200ms
-- Canonical tags on every page
-- Short, keyword-rich URLs
-
-### Site-Level Factors (61–78)
-- Contact page with real business info matching WHOIS
-- SSL certificate (Vercel provides)
-- Breadcrumb navigation on all pages
-- Sitemap.xml auto-generated
-- Mobile-first responsive design
-- Privacy Policy, Terms, Refund Policy pages
-- Regular content updates (blog)
-
-### Schema Markup (every page)
-- All pages: WebSite, Organization, BreadcrumbList
-- Homepage: WebPage, Service, AggregateRating
-- Pricing: Offer + PriceSpecification per plan
-- FAQ: FAQPage schema
-- Blog: Article, BlogPosting, Person
-- Setup Guide: HowTo + HowToStep
-
-### Internal Linking Silo
-```
-HOMEPAGE (hub)
-├── /pricing → anchor: "iptv subscription uk plans"
-├── /channels → anchor: "iptv uk channels" (gated)
-├── /setup-guide → anchor: "iptv uk subscription setup"
-├── /faq → anchor: "iptv uk faq"
-└── /blog/[posts] → each links to 2+ money pages
-```
-Never use "click here". Always keyword-rich anchors.
-
-### Backlink Strategy Notes
-- Build .co.uk backlinks for country-specific trust
-- Guest posts on UK tech/streaming blogs
-- Natural link profile: mix of dofollow/nofollow
-- Brand mentions count as signals even without links
-
----
-
-## SKILLS TO USE (in Claude Code)
-
-| Skill | Location | When |
-|---|---|---|
-| frontend-patterns | ~/.claude/skills/frontend-patterns | Component architecture |
-| seo | ~/.claude/skills/seo | Meta, schema, sitemap |
-| seo-audit | ~/.claude/skills/seo-audit | After completing any page |
-| seo-schema | ~/.claude/skills/seo-schema | Structured data |
-| seo-content | ~/.claude/skills/seo-content | Blog posts, page copy |
-| seo-technical | ~/.claude/skills/seo-technical | Core Web Vitals, speed |
-| seo-sitemap | ~/.claude/skills/seo-sitemap | Sitemap generation |
-
-### MCP Servers Available
-| Server | Use |
-|---|---|
-| context7 | "use context7" for live Next.js/Tailwind/Framer Motion docs |
-| superpowers | Brainstorming, planning, systematic debugging |
-| playwright | Screenshot localhost:3000, test interactions |
-| github | Push commits, manage repo |
-
-### Tool Usage Protocol
-- On-Demand Only: Do NOT use tools unless explicitly asked
-- No Auto-Push: Never use github MCP to commit/push unless "Proceed to push" command given
-- No Auto-Screenshot: Only use playwright if asked for visual check
-
----
-
-## TECHNICAL RULES
-
-- Framer Motion for animations (not anime.js) — simpler, no dynamic import headaches
-- Lenis for smooth scroll — destroy on unmount
-- Always use Next.js `<Image>` — never raw `<img>`
-- TMDB fetches: `next: { revalidate: 3600 }` — cache 1 hour
-- Async server components wrapped in `<Suspense>` with skeleton fallbacks
-- Never commit `.env.local`
-- Never use Vercel CLI — always GitHub push
-- Never use blue as accent colour
-- Never use `#000000` or `#FFFFFF` — use design system values
-- Never delay hero H1 animation — it is the LCP element
-- Never keyword stuff — natural language only
-- PowerShell syntax for all terminal commands
+### Domain: EMD exact match, keyword first, .uk TLD
+### Page-Level: keyword in title (front-loaded), H1, meta desc, first 100 words. Content: homepage 2500+, FAQ 2500+, blog 1500+, pricing 600-800 MAX. LSI: "live TV", "UK channels", "Sky Sports", "Premier League", "streaming". Images: descriptive alt, WebP/AVIF, explicit dimensions. CWV: LCP <2.5s, CLS <0.1, INP <200ms.
+### Site-Level: contact page, SSL, breadcrumbs, sitemap, mobile-first, legal pages
+### Schema: WebSite, Organization, BreadcrumbList (all pages). Service, AggregateRating (home). Offer (pricing). FAQPage (faq). Article (blog). HowTo (setup).
+### Internal links: keyword-rich anchors, never "click here"
 
 ---
 
@@ -282,94 +216,64 @@ Never use "click here". Always keyword-rich anchors.
 ```
 src/
 ├── app/
-│   ├── layout.tsx              ← root layout, fonts, metadata
-│   ├── page.tsx                ← homepage
-│   ├── pricing/page.tsx        ← public pricing
-│   ├── faq/page.tsx            ← public FAQ
-│   ├── blog/page.tsx           ← blog index
-│   ├── blog/[slug]/page.tsx    ← blog posts
-│   ├── contact/page.tsx        ← contact
-│   ├── login/page.tsx          ← WhatsApp OTP auth
-│   ├── channels/page.tsx       ← GATED: channel browse
-│   ├── setup-guide/page.tsx    ← GATED: device setup
-│   ├── plans/advanced/page.tsx ← GATED: detailed plans + crypto
-│   ├── privacy-policy/page.tsx
-│   ├── terms/page.tsx
-│   ├── refund-policy/page.tsx
-│   └── api/
-│       ├── auth/verify/route.ts
-│       ├── payment/create/route.ts
-│       └── payment/webhook/route.ts
+│   ├── layout.tsx · page.tsx
+│   ├── pricing/ · faq/ · blog/ · blog/[slug]/ · contact/
+│   ├── login/                  ← video bg + glass form
+│   ├── channels/               ← GATED
+│   ├── setup-guide/            ← GATED
+│   ├── plans/advanced/         ← GATED
+│   ├── privacy-policy/ · terms/ · refund-policy/
+│   └── api/auth/ · api/payment/
 ├── components/
-│   ├── layout/
-│   │   ├── Navbar.tsx
-│   │   ├── Footer.tsx
-│   │   └── MobileMenu.tsx
-│   ├── home/
-│   │   ├── Hero.tsx
-│   │   ├── ContentRow.tsx
-│   │   ├── PricingCards.tsx
-│   │   ├── DeviceSection.tsx
-│   │   ├── FAQSection.tsx
-│   │   └── StatsBar.tsx
-│   ├── ui/
-│   │   ├── Button.tsx
-│   │   ├── WhatsAppButton.tsx
-│   │   ├── PosterCard.tsx
-│   │   └── Skeleton.tsx
-│   ├── auth/
-│   │   └── OTPForm.tsx
+│   ├── layout/ (Navbar, Footer, MobileMenu)
+│   ├── home/ (Hero, ContentRow, LiveSports, NewsSection, PricingCards, DeviceSection, FAQSection, StatsBar)
+│   ├── ui/ (LiquidGlass, GlassButton, GlassCard, WhatsAppButton, PosterCard, Skeleton)
+│   ├── auth/ (LoginForm)
 │   └── SmoothScroll.tsx
-├── lib/
-│   ├── tmdb.ts                 ← TMDB API helpers
-│   ├── wa.ts                   ← WhatsApp link builder
-│   ├── auth.ts                 ← JWT sign/verify helpers
-│   └── schema.ts               ← JSON-LD schema builders
-├── middleware.ts                ← auth check on gated routes
-└── styles/
-    └── globals.css
+├── lib/ (tmdb.ts, football.ts, news.ts, wa.ts, auth.ts, schema.ts)
+├── middleware.ts
+└── styles/globals.css
 ```
 
 ---
 
-## HOMEPAGE SECTIONS (exact order)
+## SKILLS
 
-1. **HERO** — Full-width TMDB backdrop, gradient overlay, H1 "THE UK'S #1 IPTV SUBSCRIPTION", CTA buttons, trust badges
-2. **STATS BAR** — 30,000+ Channels · 100,000+ Subscribers · 99.9% Uptime · 4K Quality
-3. **CONTENT ROWS** — 6 Disney+ style horizontal poster rows from TMDB
-4. **PRICING** — 3 plan cards, Disney+ pricing layout
-5. **DEVICES** — "Available on your favourite devices" with 4 categories
-6. **FAQ PREVIEW** — 6 questions, accordion, FAQPage schema
-7. **FINAL CTA** — "Start Watching Today" full-width red section
-8. **FOOTER** — 4-column mega footer
+| Skill | When |
+|---|---|
+| frontend-patterns | Components |
+| seo, seo-audit, seo-schema, seo-content, seo-technical, seo-sitemap | SEO work |
+
+### MCP: context7 (docs), superpowers (planning), playwright (screenshots), github (push)
+### Tool Usage: On-Demand Only. No Auto-Push. No Auto-Screenshot.
 
 ---
 
-## WHAT NOT TO DO
+## DO NOT
 
-- Never use placeholder images — always TMDB or CSS gradient fallback
-- Never ask the user to provide images manually
-- Never keyword stuff
-- Never use `--no-verify` on git commits
-- Never modify eslint/tailwind config to hide warnings — fix the code
-- Never use Vercel CLI
-- Never use blue as accent
-- Never delay hero H1 — it is the LCP element
-- Never use raw `<img>` tags
-- Never commit .env.local
-- Never stack two same-background sections adjacent
-- Never make pricing page over 800 words
+- Use red as primary accent — white/glass only
+- Use childish icons — lucide-react only
+- Use custom cursor
+- Make navbar transparent at top — always glass
+- Use anime.js — Framer Motion only
+- Use `<img>` (except NewsAPI)
+- Delay hero H1 — LCP element
+- Keyword stuff
+- Commit .env.local
+- Use Vercel CLI
+- Stack same-bg sections adjacent
+- Exceed 800 words on pricing page
 
 ---
 
 ## LEARNED — CODE
-(Claude adds discoveries here each session)
+(Claude adds each session)
 
 ## LEARNED — SEO
-(Claude adds discoveries here each session)
+(Claude adds each session)
 
 ## LEARNED — DESIGN
-(Claude adds discoveries here each session)
+(Claude adds each session)
 
 ## LEARNED — AVOID
-(Claude adds discoveries here each session)
+(Claude adds each session)
