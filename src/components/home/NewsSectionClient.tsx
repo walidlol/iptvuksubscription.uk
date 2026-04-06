@@ -1,7 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Newspaper } from "lucide-react";
 import type { NewsArticle } from "@/lib/news";
+
+// Deterministic gradient per source name for visual variety
+const SOURCE_GRADIENTS: Record<string, string> = {
+  "BBC Sport": "from-[#1a2636] to-[#0d1520]",
+  "BBC News": "from-[#1a1a2e] to-[#16213e]",
+  "Sky News": "from-[#0f2027] to-[#203a43]",
+  "ITV News": "from-[#1a1320] to-[#2d1b35]",
+  "Channel 4 News": "from-[#1c1f26] to-[#2a2d35]",
+  "Sky Sports": "from-[#1a2030] to-[#0f1a2e]",
+};
+
+function getFallbackGradient(source: string): string {
+  return SOURCE_GRADIENTS[source] ?? "from-[#141820] to-[#0c0e14]";
+}
 
 // ─── Relative time formatter ───
 
@@ -59,8 +74,9 @@ function NewsCard({
             }}
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-[rgba(255,255,255,0.06)] to-[rgba(0,0,0,0.1)] flex items-center justify-center">
-            <span className="font-heading text-xs text-[#6E6E7A] uppercase tracking-widest">
+          <div className={`w-full h-full bg-gradient-to-br ${getFallbackGradient(article.source.name)} flex flex-col items-center justify-center gap-2`}>
+            <Newspaper size={24} className="text-[rgba(255,255,255,0.15)]" />
+            <span className="font-heading text-xs text-[rgba(255,255,255,0.25)] uppercase tracking-widest">
               {article.source.name}
             </span>
           </div>

@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { verifySession, COOKIE_NAME } from "@/lib/auth";
 
 // Routes that require authentication
-const GATED_ROUTES = ["/channels", "/setup-guide", "/plans/advanced"];
+const GATED_ROUTES = ["/channels", "/setup-guide"];
 
 function isGatedRoute(pathname: string): boolean {
   return GATED_ROUTES.some(
@@ -41,5 +41,5 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ["/channels/:path*", "/setup-guide/:path*", "/plans/advanced/:path*"],
+  matcher: ["/channels/:path*", "/setup-guide/:path*"],
 };

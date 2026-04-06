@@ -8,7 +8,7 @@ import GlassButton from "@/components/ui/GlassButton";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Plans", href: "/plans" },
+  { label: "Plans", href: "/pricing" },
   { label: "Channels", href: "/channels" },
   { label: "Setup", href: "/setup-guide" },
   { label: "FAQ", href: "/faq" },
@@ -80,7 +80,7 @@ export default function Navbar() {
 
           {/* ── Desktop CTA ── */}
           <div className="hidden md:block shrink-0">
-            <GlassButton href="/plans" variant="primary" size="sm">
+            <GlassButton href="/pricing" variant="primary" size="sm">
               Get IPTV UK
             </GlassButton>
           </div>
@@ -160,7 +160,7 @@ export default function Navbar() {
 
               {/* Mobile CTA */}
               <div className="mt-6">
-                <GlassButton href="/plans" variant="primary" size="md" className="w-full justify-center">
+                <GlassButton href="/pricing" variant="primary" size="md" className="w-full justify-center">
                   Get IPTV UK
                 </GlassButton>
               </div>

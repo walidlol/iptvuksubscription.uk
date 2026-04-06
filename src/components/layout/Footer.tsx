@@ -4,10 +4,10 @@ const FOOTER_COLUMNS = [
   {
     title: "Plans",
     links: [
-      { label: "Monthly Plan", href: "/plans" },
-      { label: "Annual Plan", href: "/plans" },
-      { label: "Family Plan", href: "/plans" },
-      { label: "Free Trial", href: "/plans" },
+      { label: "Monthly Plan", href: "/pricing" },
+      { label: "Annual Plan", href: "/pricing" },
+      { label: "Family Plan", href: "/pricing" },
+      { label: "Free Trial", href: "/pricing" },
     ],
   },
   {

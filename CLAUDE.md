@@ -277,6 +277,11 @@ src/
 - `normalizeUKPhone` in `api/auth/verify/route.ts` handles: `+44XXXXXXXXXX`, `07XXXXXXXXX`, `7XXXXXXXXX` formats.
 - `whileInView` animations require `viewport={{ once: true }}` to fire only once on scroll.
 - `BLOG_POSTS` imported in `sitemap.ts` to dynamically include all blog post URLs.
+- `"use client"` pages CANNOT export `metadata`. Split into server page.tsx (metadata) + client FAQContent.tsx (accordion). Applied to FAQ page.
+- `crests.football-data.org` images must use `unoptimized` on Next.js `<Image>` — CDN blocks server-side image proxy.
+- NewsAPI free tier blocks server-side requests from production (only allows localhost) — always falls back to `FALLBACK_ARTICLES` in prod.
+- `ScrollProgress` uses `useScroll` + `useSpring` from framer-motion — 2px white/40 bar fixed at top z-[100].
+- `@vercel/analytics` added as `<Analytics />` in layout.tsx body — tracks page views automatically on Vercel.
 
 ## LEARNED — SEO
 
@@ -285,8 +290,10 @@ src/
 - Legal pages (privacy-policy, terms, refund-policy) have `robots: { index: false, follow: false }` — correct, should not be indexed.
 - Setup guide and channels pages also noindex (gated content).
 - `llms.txt` at `/public/llms.txt` provides AI crawler context — updated with 100,000+ VODs and Moroccan business number.
-- FAQPage JSON-LD in `buildHomepageSchema()` @graph covers homepage FAQ. Separate FAQPage schema in `faq/page.tsx` for the full FAQ page.
+- FAQPage JSON-LD in `buildHomepageSchema()` @graph covers homepage FAQ (6 questions). Separate FAQPage schema in `faq/page.tsx` for the full 18-question FAQ page.
 - OG image auto-generated at `/opengraph-image` via `src/app/opengraph-image.tsx` using Next.js ImageResponse (1200×630).
+- Every public page must have: metadata (title, description), canonical, OG (title, description, url, images), Twitter card. Verify after every new page.
+- FAQ page required server/client split to export metadata — `"use client"` pages cannot have `export const metadata`.
 
 ## LEARNED — DESIGN
 
@@ -297,15 +304,19 @@ src/
 - Red accent (#E8392A) = LIVE badges, logo red dot, error states ONLY. Never as primary accent/background.
 - "Annual" plan card uses `border-live` (not `border-brand-red`) + `shadow-glass-hover` + `bg-[rgba(255,255,255,0.08)]`.
 - Section background alternation: `bg-cinematic` → `bg-bg-primary` → `bg-bg-surface` → repeat. Never stack same bg.
+- News fallback cards use deterministic gradients per source name (e.g., BBC Sport → `from-[#1a2636] to-[#0d1520]`) + Newspaper icon.
+- `ScrollProgress` component: 2px white/40 bar at top of viewport, spring-animated — adds polish without distraction.
 
 ## LEARNED — AVOID
 
 - `variant="white"` on WhatsAppButton/GlassButton — only accepts "primary"|"secondary"|"ghost".
 - `bg-brand-red` as section background — design violation. Red only for small accents.
 - `SearchAction` in WebSite schema — site has no search implementation, remove it.
-- `/plans` URL — route is `/pricing`. Replace all references.
+- `/plans` URL — route is `/pricing`. This was a pervasive bug in Navbar (2), Footer (4), PricingCards (1), middleware (1). Always grep `/plans` after changes.
+- `/plans/advanced` — this route was never built. Removed from middleware and all links.
 - `anime.js` — use Framer Motion only.
 - Raw `<img>` tags — use Next.js `<Image>` (exception: NewsAPI thumbnails).
 - Custom cursor — not in this design system.
 - Vercel CLI — GitHub push only.
 - Hardcoded phone number in source — always via `NEXT_PUBLIC_WHATSAPP_NUMBER` env var or `src/lib/wa.ts`.
+- `"use client"` on page.tsx that needs metadata — split into server page + client component instead.

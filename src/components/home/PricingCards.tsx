@@ -199,7 +199,7 @@ export default function PricingCards() {
                 </WhatsAppButton>
                 <p className="text-center">
                   <a
-                    href="/plans/advanced#crypto"
+                    href="/pricing#crypto"
                     className="text-xs text-text-muted hover:text-text-secondary transition-colors"
                   >
                     Pay with Crypto (BTC / USDT / ETH)
