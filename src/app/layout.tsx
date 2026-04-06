@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | IPTV UK Subscription",
   },
   description:
-    "Premium IPTV UK subscription with 30,000+ channels, 4K quality, and 99.9% uptime. Watch live UK sports, Sky Sports, Premier League, and more from £9.99/mo.",
+    "Premium IPTV UK subscription with 30,000+ live channels, 100,000+ VODs, 4K quality, and 99.9% uptime. Watch live UK sports, Sky Sports, Premier League, and more from £9.99/mo.",
   keywords: [
     "iptv uk subscription",
     "iptv uk",
@@ -53,10 +55,10 @@ export const metadata: Metadata = {
     siteName: "IPTV UK Subscription",
     title: "IPTV UK Subscription | Premium UK Streaming Service",
     description:
-      "The UK's #1 IPTV subscription service. 30,000+ live channels, 4K quality, 99.9% uptime. Stream Sky Sports, Premier League, UK Drama & more from £9.99/mo.",
+      "The UK's #1 IPTV subscription service. 30,000+ live channels, 100,000+ VODs, 4K quality, 99.9% uptime. Stream Sky Sports, Premier League, UK Drama & more from £9.99/mo.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "IPTV UK Subscription - Premium UK Streaming",
@@ -67,8 +69,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "IPTV UK Subscription | #1 Premium IPTV Service in the UK",
     description:
-      "30,000+ channels, 4K quality, 99.9% uptime. The UK's best IPTV subscription from £9.99/mo.",
-    images: ["/og-image.png"],
+      "30,000+ channels, 100,000+ VODs, 4K quality, 99.9% uptime. The UK's best IPTV subscription from £9.99/mo.",
+    images: ["/opengraph-image"],
   },
   alternates: {
     canonical: SITE_URL,
@@ -102,11 +104,13 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://image.tmdb.org" />
       </head>
       <body className="font-body antialiased bg-bg-primary text-text-primary">
+        <ScrollProgress />
         <SmoothScroll>
           <Navbar />
           {children}
           <Footer />
         </SmoothScroll>
+        <Analytics />
       </body>
     </html>
   );

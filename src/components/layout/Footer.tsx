@@ -14,8 +14,8 @@ const FOOTER_COLUMNS = [
     title: "IPTV UK",
     links: [
       { label: "Channels", href: "/channels" },
-      { label: "Features", href: "/#features" },
       { label: "Devices", href: "/#devices" },
+      { label: "Live Sports", href: "/#live-sports" },
       { label: "Blog", href: "/blog" },
     ],
   },
@@ -25,7 +25,7 @@ const FOOTER_COLUMNS = [
       { label: "Setup Guide", href: "/setup-guide" },
       { label: "FAQ", href: "/faq" },
       { label: "Contact Us", href: "/contact" },
-      { label: "WhatsApp", href: "https://wa.me/447451296412" },
+      { label: "WhatsApp", href: "https://wa.me/212762151824" },
     ],
   },
   {
@@ -40,40 +40,46 @@ const FOOTER_COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-bg-hero border-t border-border">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        {/* Top: Logo + Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
-          {/* Brand Column */}
+    <footer className="bg-[var(--bg-surface)] border-t border-[rgba(255,255,255,0.08)]">
+      <div className="mx-auto max-w-7xl px-6 py-14 lg:py-16">
+
+        {/* Top: Brand + Columns */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 lg:gap-12">
+
+          {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="relative h-9 w-9 rounded-full bg-brand-red flex items-center justify-center">
-                <span className="font-heading text-lg text-text-primary leading-none">
-                  TV
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2.5"
+              aria-label="IPTV UK Subscription — Home"
+            >
+              <div className="h-8 w-8 rounded-full bg-[rgba(255,255,255,0.10)] border border-[rgba(255,255,255,0.18)] flex items-center justify-center">
+                <span className="font-heading text-xs text-white leading-none select-none">
+                  UK
                 </span>
               </div>
-              <span className="font-heading text-xl tracking-wider text-text-primary">
+              <span className="font-heading text-lg tracking-widest text-[#F2F2F7]">
                 IPTV UK
               </span>
             </Link>
-            <p className="mt-4 text-sm text-text-muted leading-relaxed max-w-xs">
-              Premium IPTV UK subscription service with 30,000+ live channels,
-              4K quality, and 99.9% uptime.
+            <p className="mt-4 text-sm text-[#6E6E7A] leading-relaxed max-w-[220px]">
+              Premium IPTV UK subscription. 30,000+ live channels, 100,000+ VODs,
+              4K quality, 99.9% uptime.
             </p>
           </div>
 
-          {/* Link Columns */}
-          {FOOTER_COLUMNS.map((column) => (
-            <div key={column.title}>
-              <h3 className="font-heading text-base tracking-wider text-text-primary mb-4">
-                {column.title.toUpperCase()}
+          {/* Link columns */}
+          {FOOTER_COLUMNS.map((col) => (
+            <div key={col.title}>
+              <h3 className="font-heading text-sm tracking-widest text-[#F2F2F7] mb-4 uppercase">
+                {col.title}
               </h3>
               <ul className="space-y-3">
-                {column.links.map((link) => (
+                {col.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-text-muted hover:text-text-primary transition-colors"
+                      className="text-sm text-[#6E6E7A] hover:text-[#F2F2F7] transition-colors duration-150"
                       {...(link.href.startsWith("https://")
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
@@ -87,35 +93,33 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Divider */}
-        <div className="mt-12 pt-8 border-t border-border">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-text-muted">
-              &copy; {new Date().getFullYear()} IPTV UK Subscription. All rights
-              reserved.
-            </p>
-            <div className="flex items-center gap-6">
-              <Link
-                href="/privacy-policy"
-                className="text-xs text-text-muted hover:text-text-primary transition-colors"
-              >
-                Privacy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-xs text-text-muted hover:text-text-primary transition-colors"
-              >
-                Terms
-              </Link>
-              <Link
-                href="/refund-policy"
-                className="text-xs text-text-muted hover:text-text-primary transition-colors"
-              >
-                Refunds
-              </Link>
-            </div>
+        {/* Bottom bar */}
+        <div className="mt-12 pt-8 border-t border-[rgba(255,255,255,0.06)] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-[#6E6E7A]">
+            &copy; 2026 IPTV UK Subscription. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/privacy-policy"
+              className="text-xs text-[#6E6E7A] hover:text-[#F2F2F7] transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-xs text-[#6E6E7A] hover:text-[#F2F2F7] transition-colors"
+            >
+              Terms
+            </Link>
+            <Link
+              href="/refund-policy"
+              className="text-xs text-[#6E6E7A] hover:text-[#F2F2F7] transition-colors"
+            >
+              Refunds
+            </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

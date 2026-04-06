@@ -239,6 +239,21 @@ export async function getNewsContent(): Promise<readonly MediaItem[]> {
   }
 }
 
+/** Pick up to N hero backdrops from trending content */
+export async function getHeroBackdrops(limit = 5): Promise<readonly MediaItem[]> {
+  try {
+    const data = await tmdbFetch<TMDBPaginatedResponse<TMDBMediaItem>>(
+      "/trending/all/day"
+    );
+    return data.results
+      .filter((item) => item.backdrop_path)
+      .slice(0, limit)
+      .map(normalizeItem);
+  } catch {
+    return [];
+  }
+}
+
 /** Fetch all 6 content rows in parallel */
 export async function fetchAllContentRows(): Promise<
   readonly { title: string; items: readonly MediaItem[] }[]

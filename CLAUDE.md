@@ -1,5 +1,4 @@
 # CLAUDE.md — iptvuksubscription.uk
-> Read this file completely before touching any code.
 > April 2026 — Liquid Glass design, fresh build.
 
 ---
@@ -193,7 +192,7 @@ FOOTBALL_DATA_API_KEY=
 NEWS_API_KEY=
 NOWPAYMENTS_API_KEY=
 AUTH_SECRET=
-NEXT_PUBLIC_WHATSAPP_NUMBER=447451296412
+NEXT_PUBLIC_WHATSAPP_NUMBER=212762151824
 NEXT_PUBLIC_SITE_URL=https://iptvuksubscription.uk
 ```
 
@@ -267,13 +266,46 @@ src/
 ---
 
 ## LEARNED — CODE
-(Claude adds each session)
+
+- `bg-bg-elevated`, `bg-bg-elevated/50`, `border-border`, `bg-border`, `shadow-brand-glow`, `border-brand-red` — none exist in tailwind.config.ts. Use inline rgba values instead.
+- Opacity modifiers (`/50`) don't work with CSS variable colors in Tailwind — always use inline `rgba()`.
+- FAQPage schema must live in a server component (`@graph` in `buildHomepageSchema`), not a "use client" component.
+- Blog post content stored as `BlogSection[]` arrays (not raw HTML) → safe server-side render without `dangerouslySetInnerHTML`.
+- `generateStaticParams` in `blog/[slug]/page.tsx` pulls slugs from `BLOG_POSTS` in `src/data/blogPosts.ts`.
+- Auth accepts UK phone numbers (+44) for subscribers. Business WhatsApp is Moroccan (+212 762 151 824). These are separate concerns.
+- `CinematicShapes` has a `subtle` prop (scales opacity to 55%) — use `subtle` on inner pages, omit on homepage hero.
+- `normalizeUKPhone` in `api/auth/verify/route.ts` handles: `+44XXXXXXXXXX`, `07XXXXXXXXX`, `7XXXXXXXXX` formats.
+- `whileInView` animations require `viewport={{ once: true }}` to fire only once on scroll.
+- `BLOG_POSTS` imported in `sitemap.ts` to dynamically include all blog post URLs.
 
 ## LEARNED — SEO
-(Claude adds each session)
+
+- Sitemap now includes: homepage (1.0), pricing (0.9), faq (0.85), blog index (0.8), contact (0.7), blog posts (0.75 each), legal pages (0.3).
+- `generateMetadata` in `blog/[slug]/page.tsx` sets `openGraph.type: "article"` and `publishedTime` for blog posts.
+- Legal pages (privacy-policy, terms, refund-policy) have `robots: { index: false, follow: false }` — correct, should not be indexed.
+- Setup guide and channels pages also noindex (gated content).
+- `llms.txt` at `/public/llms.txt` provides AI crawler context — updated with 100,000+ VODs and Moroccan business number.
+- FAQPage JSON-LD in `buildHomepageSchema()` @graph covers homepage FAQ. Separate FAQPage schema in `faq/page.tsx` for the full FAQ page.
+- OG image auto-generated at `/opengraph-image` via `src/app/opengraph-image.tsx` using Next.js ImageResponse (1200×630).
 
 ## LEARNED — DESIGN
-(Claude adds each session)
+
+- Glass CSS pattern: `rgba(255,255,255,0.06)` bg + `backdrop-filter: blur(20px)` + `rgba(255,255,255,0.12)` border + `0 8px 32px rgba(0,0,0,0.3)` shadow + `inset 0 1px 0 0 rgba(255,255,255,0.15)` sheen.
+- Cinematic gradient: `linear-gradient(to top left, #183949 0%, #040405 65%)` — Tailwind class `bg-cinematic`.
+- `CinematicShapes` component: 3 blur orbs + 3 rotating rings + 2 diagonal hairlines. Uses `useReducedMotion()`.
+- Logo: `public/logo.svg` (full horizontal) + `public/logo-icon.svg` (icon mark). Broadcast signal icon + Bebas Neue wordmark.
+- Red accent (#E8392A) = LIVE badges, logo red dot, error states ONLY. Never as primary accent/background.
+- "Annual" plan card uses `border-live` (not `border-brand-red`) + `shadow-glass-hover` + `bg-[rgba(255,255,255,0.08)]`.
+- Section background alternation: `bg-cinematic` → `bg-bg-primary` → `bg-bg-surface` → repeat. Never stack same bg.
 
 ## LEARNED — AVOID
-(Claude adds each session)
+
+- `variant="white"` on WhatsAppButton/GlassButton — only accepts "primary"|"secondary"|"ghost".
+- `bg-brand-red` as section background — design violation. Red only for small accents.
+- `SearchAction` in WebSite schema — site has no search implementation, remove it.
+- `/plans` URL — route is `/pricing`. Replace all references.
+- `anime.js` — use Framer Motion only.
+- Raw `<img>` tags — use Next.js `<Image>` (exception: NewsAPI thumbnails).
+- Custom cursor — not in this design system.
+- Vercel CLI — GitHub push only.
+- Hardcoded phone number in source — always via `NEXT_PUBLIC_WHATSAPP_NUMBER` env var or `src/lib/wa.ts`.

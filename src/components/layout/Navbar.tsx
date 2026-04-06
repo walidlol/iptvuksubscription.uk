@@ -1,188 +1,170 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { X, Menu } from "lucide-react";
+import GlassButton from "@/components/ui/GlassButton";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Plans", href: "/plans" },
+  { label: "Channels", href: "/channels" },
+  { label: "Setup", href: "/setup-guide" },
   { label: "FAQ", href: "/faq" },
   { label: "Blog", href: "/blog" },
 ] as const;
 
-const WHATSAPP_NUMBER = "447451296412";
-
+// Navbar is ALWAYS glass — not transparent-to-blur.
+// Shadow intensifies on scroll past 50px.
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 50);
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 50);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
-
-  // Lock body scroll when mobile menu is open
-  useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
+  // Close drawer when route changes (simple approach)
+  function closeMobile() {
+    setMobileOpen(false);
+  }
 
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-bg-primary/80 backdrop-blur-lg border-b border-border"
-            : "bg-transparent"
-        }`}
+        className={[
+          "fixed top-0 left-0 right-0 z-50",
+          "bg-[rgba(12,13,18,0.70)]",
+          "backdrop-blur-glass",
+          "border-b border-[rgba(255,255,255,0.08)]",
+          "transition-shadow duration-300",
+          scrolled ? "shadow-[0_4px_24px_rgba(0,0,0,0.4)]" : "",
+        ].join(" ")}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <div className="relative h-9 w-9 rounded-full bg-brand-red flex items-center justify-center">
-                <span className="font-heading text-lg text-text-primary leading-none">
-                  TV
-                </span>
-              </div>
-              <span className="font-heading text-xl tracking-wider text-text-primary hidden sm:block">
-                IPTV UK
+        <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
+
+          {/* ── Logo ── */}
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 group shrink-0"
+            aria-label="IPTV UK Subscription — Home"
+          >
+            {/* Styled logo mark — replace inner span with <Image> when icon.png is ready */}
+            <div className="h-8 w-8 rounded-full bg-[rgba(255,255,255,0.12)] border border-[rgba(255,255,255,0.20)] flex items-center justify-center">
+              <span className="font-heading text-xs text-white leading-none select-none">
+                UK
               </span>
-            </Link>
-
-            {/* Desktop Nav Links */}
-            <div className="hidden md:flex items-center gap-8">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
             </div>
+            <span className="font-heading text-lg tracking-widest text-[#F2F2F7] group-hover:text-white transition-colors">
+              IPTV UK
+            </span>
+          </Link>
 
-            {/* Desktop CTA */}
-            <div className="hidden md:flex items-center gap-3">
+          {/* ── Desktop Nav Links ── */}
+          <div className="hidden md:flex items-center gap-7">
+            {NAV_LINKS.map((link) => (
               <Link
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi, I'm interested in your IPTV UK subscription service.")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-2 bg-brand-red hover:bg-brand-red-hover text-text-primary text-sm font-semibold rounded-lg transition-colors"
+                key={link.href}
+                href={link.href}
+                className="text-[14px] font-medium text-[#B8B8C0] hover:text-white transition-colors duration-150"
               >
-                Get IPTV UK
+                {link.label}
               </Link>
-            </div>
-
-            {/* Mobile Hamburger */}
-            <button
-              type="button"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden relative z-50 flex flex-col justify-center items-center w-10 h-10 gap-1.5"
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileOpen}
-            >
-              <motion.span
-                animate={
-                  mobileOpen
-                    ? { rotate: 45, y: 6, width: 24 }
-                    : { rotate: 0, y: 0, width: 24 }
-                }
-                transition={{ duration: 0.2 }}
-                className="block h-0.5 bg-text-primary rounded-full origin-center"
-                style={{ width: 24 }}
-              />
-              <motion.span
-                animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-                transition={{ duration: 0.15 }}
-                className="block h-0.5 w-6 bg-text-primary rounded-full"
-              />
-              <motion.span
-                animate={
-                  mobileOpen
-                    ? { rotate: -45, y: -6, width: 24 }
-                    : { rotate: 0, y: 0, width: 24 }
-                }
-                transition={{ duration: 0.2 }}
-                className="block h-0.5 bg-text-primary rounded-full origin-center"
-                style={{ width: 24 }}
-              />
-            </button>
+            ))}
           </div>
+
+          {/* ── Desktop CTA ── */}
+          <div className="hidden md:block shrink-0">
+            <GlassButton href="/plans" variant="primary" size="sm">
+              Get IPTV UK
+            </GlassButton>
+          </div>
+
+          {/* ── Mobile Hamburger ── */}
+          <button
+            className="md:hidden p-2 text-[#B8B8C0] hover:text-white transition-colors"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
       </nav>
 
-      {/* Mobile Drawer */}
+      {/* ── Mobile Drawer (slides in from right) ── */}
       <AnimatePresence>
         {mobileOpen && (
           <>
             {/* Backdrop */}
             <motion.div
+              key="backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-bg-hero/60 backdrop-blur-sm md:hidden"
-              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+              onClick={closeMobile}
             />
 
-            {/* Drawer Panel */}
-            <motion.div
+            {/* Drawer panel */}
+            <motion.aside
+              key="drawer"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed top-0 right-0 z-40 h-full w-72 bg-bg-surface border-l border-border md:hidden"
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className={[
+                "fixed top-0 right-0 bottom-0 z-50",
+                "w-72 md:hidden",
+                "bg-[rgba(12,13,18,0.95)]",
+                "backdrop-blur-glass",
+                "border-l border-[rgba(255,255,255,0.10)]",
+                "flex flex-col",
+                "pt-20 pb-8 px-6",
+              ].join(" ")}
             >
-              <div className="flex flex-col pt-24 px-6 gap-2">
+              {/* Close button */}
+              <button
+                className="absolute top-6 right-6 p-2 text-[#B8B8C0] hover:text-white transition-colors"
+                onClick={closeMobile}
+                aria-label="Close menu"
+              >
+                <X size={20} />
+              </button>
+
+              {/* Links */}
+              <nav className="flex flex-col gap-1 flex-1">
                 {NAV_LINKS.map((link, i) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * i + 0.1 }}
+                    transition={{ delay: i * 0.05, duration: 0.2 }}
                   >
                     <Link
                       href={link.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-3 px-4 text-base font-medium text-text-secondary hover:text-text-primary hover:bg-bg-elevated rounded-lg transition-colors"
+                      onClick={closeMobile}
+                      className="block py-3 px-2 text-base font-medium text-[#B8B8C0] hover:text-white border-b border-[rgba(255,255,255,0.06)] transition-colors"
                     >
                       {link.label}
                     </Link>
                   </motion.div>
                 ))}
+              </nav>
 
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * NAV_LINKS.length + 0.1 }}
-                  className="mt-4"
-                >
-                  <Link
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi, I'm interested in your IPTV UK subscription service.")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setMobileOpen(false)}
-                    className="block w-full text-center py-3 px-4 bg-brand-red hover:bg-brand-red-hover text-text-primary font-semibold rounded-lg transition-colors"
-                  >
-                    Get IPTV UK
-                  </Link>
-                </motion.div>
+              {/* Mobile CTA */}
+              <div className="mt-6">
+                <GlassButton href="/plans" variant="primary" size="md" className="w-full justify-center">
+                  Get IPTV UK
+                </GlassButton>
               </div>
-            </motion.div>
+            </motion.aside>
           </>
         )}
       </AnimatePresence>

@@ -13,7 +13,7 @@ interface PosterCardProps {
   readonly index: number;
 }
 
-const sizeConfig = {
+const SIZE_CONFIG = {
   poster: {
     width: 150,
     height: 225,
@@ -34,22 +34,23 @@ export default function PosterCard({
   priority = false,
   index,
 }: PosterCardProps) {
-  const config = sizeConfig[size];
+  const config = SIZE_CONFIG[size];
   const imageUrl =
-    size === "poster" ? item.posterUrl : item.backdropUrl ?? item.posterUrl;
+    size === "poster" ? item.posterUrl : (item.backdropUrl ?? item.posterUrl);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{
         duration: 0.4,
         delay: Math.min(index * 0.05, 0.3),
         ease: [0.25, 0.1, 0.25, 1],
       }}
-      whileHover={{ scale: 1.05 }}
-      className={`${config.containerClass} relative rounded-lg overflow-hidden cursor-pointer group shrink-0 transition-shadow duration-300 hover:shadow-card-hover`}
+      whileHover={{ scale: 1.05, y: -4 }}
+      className={`${config.containerClass} relative rounded-xl overflow-hidden cursor-pointer group shrink-0`}
+      style={{ willChange: "transform" }}
     >
       {imageUrl ? (
         <Image
@@ -59,26 +60,26 @@ export default function PosterCard({
           height={config.height}
           sizes={config.imgSizes}
           priority={priority}
-          className="object-cover w-full h-full transition-transform duration-300"
+          className="object-cover w-full h-full"
           quality={75}
         />
       ) : (
         /* Gradient fallback — never show broken images */
-        <div className="absolute inset-0 bg-gradient-to-br from-bg-elevated via-bg-surface to-bg-primary flex items-end p-3">
-          <span className="text-xs text-text-muted font-medium leading-tight line-clamp-2">
+        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(255,255,255,0.08)] via-[rgba(255,255,255,0.04)] to-[rgba(0,0,0,0.2)] flex items-end p-3">
+          <span className="text-xs text-[#B8B8C0] font-medium leading-tight line-clamp-2">
             {item.title}
           </span>
         </div>
       )}
 
-      {/* Hover overlay with title */}
-      <div className="absolute inset-0 bg-gradient-to-t from-bg-hero/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+      {/* Hover overlay — title + year */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(8,9,12,0.92)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
         <div>
-          <p className="text-sm font-medium text-text-primary leading-tight line-clamp-2">
+          <p className="text-sm font-medium text-[#F2F2F7] leading-tight line-clamp-2">
             {item.title}
           </p>
           {item.year && (
-            <p className="text-xs text-text-muted mt-0.5">{item.year}</p>
+            <p className="text-xs text-[#6E6E7A] mt-0.5">{item.year}</p>
           )}
         </div>
       </div>

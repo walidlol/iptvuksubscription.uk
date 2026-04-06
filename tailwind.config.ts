@@ -52,6 +52,8 @@ const config: Config = {
         "glass-sm": "0 4px 16px rgba(0,0,0,0.25), inset 0 1px 0 0 rgba(255,255,255,0.10)",
       },
       backgroundImage: {
+        "cinematic":
+          "linear-gradient(to top left, #183949 0%, #040405 65%)",
         "hero-gradient":
           "linear-gradient(to top, var(--bg-primary) 0%, transparent 60%)",
         "hero-gradient-left":

@@ -1,17 +1,17 @@
 # IPTV UK Subscription — iptvuksubscription.uk
 
 ## About
-IPTV UK Subscription is the UK's #1 premium IPTV streaming service. We provide over 30,000 live TV channels, 50,000+ movies and TV shows on demand, all in Full HD and 4K quality with 99.9% uptime.
+IPTV UK Subscription is the UK's #1 premium IPTV streaming service. We provide over 30,000 live TV channels and 100,000+ on-demand VODs including movies, documentaries, TV shows, and special events (iconic football matches, UFC fights, boxing, MMA), all in Full HD and 4K quality with 99.9% uptime.
 
 ## Services
 - **Monthly Plan**: £9.99/mo — 30,000+ channels, Full HD & 4K, 1 device, 24/7 support
-- **Annual Plan**: £59/yr — Everything in Monthly + 2 devices, priority support, 50,000+ VOD library (Most Popular)
+- **Annual Plan**: £59/yr — Everything in Monthly + 2 devices, priority support, 100,000+ VOD library (Most Popular)
 - **Family Plan**: £129.99/yr — Everything in Annual + 4 devices, VIP support
 
 ## Key Features
 - 30,000+ live TV channels including all major UK channels (BBC, ITV, Channel 4, Sky Sports, BT Sport)
+- 100,000+ on-demand VODs: movies, documentaries, TV shows, classic football matches, UFC fights, boxing & special events
 - Full Premier League, Champions League, and international sports coverage
-- 50,000+ movies and TV shows on demand
 - 4K Ultra HD streaming quality
 - 99.9% uptime guarantee
 - Compatible with Smart TV, Firestick, Android, iOS, Windows, Mac, MAG Box, Apple TV, Roku, Chromecast
@@ -19,20 +19,21 @@ IPTV UK Subscription is the UK's #1 premium IPTV streaming service. We provide o
 - Instant activation via WhatsApp
 
 ## Content Categories
-- UK Sports & Reality
-- UK Drama
-- Trending Movies
+- UK Sports & Live Events (Sky Sports, TNT Sports, BT Sport, BBC Sport)
+- UK Drama & Entertainment
+- Trending Movies & Documentaries
 - Kids & Family
 - International TV
-- News & Documentaries
+- News & Current Affairs (BBC News, Sky News, CNN, Al Jazeera)
+- VOD Special Events: Greatest football matches, UFC, boxing, MMA
 
 ## Contact
-- WhatsApp: +44 7451 296412
+- WhatsApp: +212 762 151 824
 - Website: https://iptvuksubscription.uk
 
 ## Pages
 - Homepage: https://iptvuksubscription.uk
-- Plans: https://iptvuksubscription.uk/plans
+- Plans: https://iptvuksubscription.uk/pricing
 - FAQ: https://iptvuksubscription.uk/faq
 - Blog: https://iptvuksubscription.uk/blog
 - Contact: https://iptvuksubscription.uk/contact

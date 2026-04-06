@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { MessageCircle } from "lucide-react";
+import GlassButton from "@/components/ui/GlassButton";
 import { waLink } from "@/lib/wa";
 
 type Step = "phone" | "code";
@@ -14,7 +16,33 @@ interface ApiResponse {
   error?: string;
 }
 
-export default function OTPForm() {
+// ─── Glass input class ───────────────────────────────────────────────────────
+
+const GLASS_INPUT = [
+  "w-full px-4 py-3",
+  "bg-[rgba(255,255,255,0.06)]",
+  "border border-[rgba(255,255,255,0.12)]",
+  "rounded-xl",
+  "text-[#F2F2F7] placeholder:text-[#6E6E7A]",
+  "backdrop-blur-sm",
+  "focus:outline-none focus:border-[rgba(255,255,255,0.35)] focus:bg-[rgba(255,255,255,0.10)]",
+  "transition-colors duration-200",
+].join(" ");
+
+const OTP_INPUT = [
+  "w-12 h-14 text-center text-xl font-bold",
+  "bg-[rgba(255,255,255,0.06)]",
+  "border border-[rgba(255,255,255,0.12)]",
+  "rounded-xl",
+  "text-[#F2F2F7]",
+  "backdrop-blur-sm",
+  "focus:outline-none focus:border-[rgba(255,255,255,0.35)] focus:bg-[rgba(255,255,255,0.10)]",
+  "transition-colors duration-200",
+].join(" ");
+
+// ─── Component ───────────────────────────────────────────────────────────────
+
+export default function LoginForm() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
@@ -33,6 +61,7 @@ export default function OTPForm() {
   }, [step]);
 
   // ─── Step 1: Request Code ───
+
   async function handlePhoneSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
@@ -63,6 +92,7 @@ export default function OTPForm() {
   }
 
   // ─── Step 2: Verify Code ───
+
   async function handleCodeSubmit(code: string) {
     setError("");
     setLoading(true);
@@ -83,7 +113,7 @@ export default function OTPForm() {
         return;
       }
 
-      // Session cookie is set by the API — redirect to home or previous page
+      // Session cookie set by API — redirect
       router.push("/");
       router.refresh();
     } catch {
@@ -94,19 +124,17 @@ export default function OTPForm() {
   }
 
   // ─── OTP Input Handlers ───
+
   function handleOTPChange(index: number, value: string) {
-    // Only allow digits
     const digit = value.replace(/\D/g, "").slice(-1);
     const updated = [...otpDigits];
     updated[index] = digit;
     setOtpDigits(updated);
 
-    // Auto-advance to next input
     if (digit && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
 
-    // Auto-submit when all 6 digits are entered
     const fullCode = updated.join("");
     if (fullCode.length === 6) {
       handleCodeSubmit(fullCode);
@@ -121,18 +149,22 @@ export default function OTPForm() {
 
   function handleOTPPaste(e: React.ClipboardEvent) {
     e.preventDefault();
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6);
     if (pasted.length === 6) {
-      const digits = pasted.split("");
-      setOtpDigits(digits);
+      setOtpDigits(pasted.split(""));
       handleCodeSubmit(pasted);
     }
   }
 
+  // ─── Render ───
+
   return (
-    <div className="w-full max-w-sm mx-auto">
+    <div className="w-full">
       {step === "phone" ? (
-        <form onSubmit={handlePhoneSubmit} className="space-y-6">
+        <form onSubmit={handlePhoneSubmit} className="space-y-5">
           <div>
             <label
               htmlFor="phone"
@@ -148,39 +180,55 @@ export default function OTPForm() {
               placeholder="07451 296 412"
               required
               autoFocus
-              className="w-full px-4 py-3 bg-bg-elevated border border-border rounded-lg text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent"
+              className={GLASS_INPUT}
             />
           </div>
 
           {error && (
-            <p className="text-sm text-brand-red">{error}</p>
+            <p className="text-sm text-live">{error}</p>
           )}
 
-          <button
+          <GlassButton
             type="submit"
             disabled={loading || !phone.trim()}
-            className="w-full py-3 bg-brand-red hover:bg-brand-red-hover disabled:opacity-50 disabled:cursor-not-allowed text-text-primary font-semibold rounded-lg transition-colors"
+            variant="primary"
+            size="lg"
+            className="w-full justify-center"
           >
             {loading ? "Sending..." : "Get Verification Code"}
-          </button>
+          </GlassButton>
+
+          {/* Quick access WhatsApp link */}
+          <div className="pt-2 text-center">
+            <a
+              href={waLink("Hi, I'd like to access my IPTV UK account.")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-secondary transition-colors"
+            >
+              <MessageCircle size={16} />
+              Quick access via WhatsApp
+            </a>
+          </div>
         </form>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-5">
           {/* MVP: Show the code on screen */}
           {displayCode && (
-            <div className="p-4 rounded-lg bg-bg-elevated border border-border text-center">
+            <div className="p-4 rounded-xl bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.10)] text-center">
               <p className="text-sm text-text-muted mb-2">
                 Send this code to our WhatsApp to verify:
               </p>
-              <p className="font-heading text-3xl tracking-widest text-text-primary">
+              <p className="font-heading text-3xl tracking-[0.3em] text-text-primary">
                 {displayCode}
               </p>
               <a
                 href={waLink(`My verification code is: ${displayCode}`)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-3 text-sm text-brand-red hover:text-brand-red-hover transition-colors underline underline-offset-2"
+                className="inline-flex items-center gap-2 mt-3 text-sm text-text-secondary hover:text-text-primary transition-colors"
               >
+                <MessageCircle size={14} />
                 Open WhatsApp
               </a>
             </div>
@@ -198,14 +246,16 @@ export default function OTPForm() {
               {otpDigits.map((digit, i) => (
                 <input
                   key={i}
-                  ref={(el) => { inputRefs.current[i] = el; }}
+                  ref={(el) => {
+                    inputRefs.current[i] = el;
+                  }}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
                   value={digit}
                   onChange={(e) => handleOTPChange(i, e.target.value)}
                   onKeyDown={(e) => handleOTPKeyDown(i, e.key)}
-                  className="w-12 h-14 text-center text-xl font-bold bg-bg-elevated border border-border rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent"
+                  className={OTP_INPUT}
                   aria-label={`Digit ${i + 1}`}
                 />
               ))}
@@ -213,11 +263,13 @@ export default function OTPForm() {
           </div>
 
           {error && (
-            <p className="text-sm text-brand-red text-center">{error}</p>
+            <p className="text-sm text-live text-center">{error}</p>
           )}
 
           {loading && (
-            <p className="text-sm text-text-muted text-center">Verifying...</p>
+            <p className="text-sm text-text-muted text-center animate-pulse">
+              Verifying...
+            </p>
           )}
 
           {/* Back button */}
@@ -231,7 +283,7 @@ export default function OTPForm() {
             }}
             className="w-full text-sm text-text-muted hover:text-text-primary transition-colors text-center"
           >
-            Use a different number
+            &larr; Use a different number
           </button>
         </div>
       )}

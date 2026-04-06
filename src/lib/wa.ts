@@ -1,7 +1,7 @@
 // ─── WhatsApp Link Builder ───
 
 const WHATSAPP_NUMBER =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "447451296412";
+  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "212762151824";
 
 /** Build a wa.me link with pre-filled message */
 export function waLink(message: string): string {

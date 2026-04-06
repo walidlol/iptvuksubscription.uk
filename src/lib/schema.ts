@@ -4,7 +4,7 @@
 
 const SITE_URL = "https://iptvuksubscription.uk";
 const SITE_NAME = "IPTV UK Subscription";
-const WHATSAPP_NUMBER = "+447451296412";
+const WHATSAPP_NUMBER = "+212762151824";
 
 // ─── WebSite Schema ───
 
@@ -15,16 +15,9 @@ export function buildWebSiteSchema() {
     url: SITE_URL,
     name: SITE_NAME,
     description:
-      "Premium IPTV UK subscription with 30,000+ live channels, 4K quality, and 99.9% uptime.",
+      "Premium IPTV UK subscription with 30,000+ live channels, 100,000+ VODs, 4K quality, and 99.9% uptime.",
     inLanguage: "en-GB",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/?s={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }
 
@@ -81,6 +74,8 @@ interface WebPageInput {
   readonly name: string;
   readonly description: string;
   readonly url: string;
+  readonly datePublished?: string;
+  readonly dateModified?: string;
 }
 
 export function buildWebPageSchema(page: WebPageInput) {
@@ -93,6 +88,8 @@ export function buildWebPageSchema(page: WebPageInput) {
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
     inLanguage: "en-GB",
+    ...(page.datePublished && { datePublished: page.datePublished }),
+    ...(page.dateModified && { dateModified: page.dateModified }),
   };
 }
 
@@ -104,7 +101,7 @@ export function buildServiceSchema() {
     "@id": `${SITE_URL}/#service`,
     name: "IPTV UK Subscription Service",
     description:
-      "Premium IPTV streaming service for the UK with 30,000+ live channels, 4K quality, 99.9% uptime, and support for all major devices.",
+      "Premium IPTV streaming service for the UK with 30,000+ live channels, 100,000+ VODs including movies, football events and UFC, 4K quality, 99.9% uptime, and support for all major devices.",
     provider: { "@id": `${SITE_URL}/#organization` },
     areaServed: {
       "@type": "Country",
@@ -117,21 +114,21 @@ export function buildServiceSchema() {
         price: "9.99",
         priceCurrency: "GBP",
         billingPeriod: "P1M",
-        url: `${SITE_URL}/plans`,
+        url: `${SITE_URL}/pricing`,
       }),
       buildOfferSchema({
         name: "Annual Plan",
         price: "59",
         priceCurrency: "GBP",
         billingPeriod: "P1Y",
-        url: `${SITE_URL}/plans`,
+        url: `${SITE_URL}/pricing`,
       }),
       buildOfferSchema({
         name: "Family Plan",
         price: "129.99",
         priceCurrency: "GBP",
         billingPeriod: "P1Y",
-        url: `${SITE_URL}/plans`,
+        url: `${SITE_URL}/pricing`,
       }),
     ],
     aggregateRating: {
@@ -194,7 +191,120 @@ export function buildFAQSchema(items: readonly FAQInput[]) {
   };
 }
 
+// ─── Article Schema ───
+
+interface ArticleInput {
+  readonly title: string;
+  readonly description: string;
+  readonly url: string;
+  readonly datePublished: string;
+  readonly dateModified?: string;
+  readonly authorName?: string;
+  readonly imageUrl?: string;
+}
+
+export function buildArticleSchema(article: ArticleInput) {
+  return {
+    "@type": "BlogPosting",
+    "@id": `${article.url}/#article`,
+    headline: article.title,
+    description: article.description,
+    url: article.url,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified ?? article.datePublished,
+    author: {
+      "@type": "Organization",
+      name: article.authorName ?? "IPTV UK Subscription",
+      url: SITE_URL,
+    },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": article.url,
+    },
+    ...(article.imageUrl && {
+      image: {
+        "@type": "ImageObject",
+        url: article.imageUrl,
+      },
+    }),
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    inLanguage: "en-GB",
+  };
+}
+
+// ─── HowTo Schema ───
+
+interface HowToStep {
+  readonly name: string;
+  readonly text: string;
+  readonly image?: string;
+}
+
+interface HowToInput {
+  readonly name: string;
+  readonly description: string;
+  readonly url: string;
+  readonly steps: readonly HowToStep[];
+  readonly totalTime?: string; // ISO 8601 duration e.g. "PT10M"
+}
+
+export function buildHowToSchema(howTo: HowToInput) {
+  return {
+    "@type": "HowTo",
+    "@id": `${howTo.url}/#howto`,
+    name: howTo.name,
+    description: howTo.description,
+    url: howTo.url,
+    inLanguage: "en-GB",
+    ...(howTo.totalTime && { totalTime: howTo.totalTime }),
+    step: howTo.steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+      ...(step.image && {
+        image: { "@type": "ImageObject", url: step.image },
+      }),
+    })),
+  };
+}
+
 // ─── Homepage @graph Builder ───
+
+/** FAQ items shared between the accordion UI and the FAQPage schema */
+export const HOMEPAGE_FAQ_ITEMS = [
+  {
+    question: "What is IPTV UK Subscription?",
+    answer:
+      "IPTV UK Subscription is a premium Internet Protocol Television service designed specifically for UK viewers. We deliver over 30,000 live TV channels including BBC, ITV, Sky Sports, BT Sport, and Premier League coverage, plus 100,000+ on-demand VODs — movies, documentaries, TV shows, and special events like iconic football matches and UFC fights — all in stunning Full HD and 4K quality.",
+  },
+  {
+    question: "How many channels do you offer?",
+    answer:
+      "We provide access to over 30,000 live TV channels from the UK and around the world, plus a library of 100,000+ on-demand VODs including movies, documentaries, TV shows, and special events such as classic football matches and UFC fights. This includes all UK sports channels, entertainment, news, kids channels, and international content from Europe, Asia, the Americas, and more.",
+  },
+  {
+    question: "What devices are compatible with your IPTV service?",
+    answer:
+      "Our IPTV UK subscription works on virtually any device. This includes Smart TVs (Samsung, LG, Sony), Amazon Firestick, Android TV boxes, MAG devices, computers (Windows and Mac), smartphones and tablets (iOS and Android), Roku, Apple TV, and Chromecast. If it connects to the internet, it likely works with our service.",
+  },
+  {
+    question: "Do you offer a free trial?",
+    answer:
+      "Yes, we offer a free trial so you can test our IPTV UK service before committing to a subscription. Simply contact us via WhatsApp to request your free trial, and we will set you up within minutes. No payment details required for the trial.",
+  },
+  {
+    question: "What internet speed do I need?",
+    answer:
+      "For optimal streaming quality, we recommend a minimum of 10 Mbps for HD content and 25 Mbps for 4K Ultra HD content. Most standard UK broadband connections will handle our service without any issues. We also recommend using a wired ethernet connection for the most stable experience, though WiFi works well too.",
+  },
+  {
+    question: "How do I subscribe to your IPTV UK service?",
+    answer:
+      "Subscribing is simple and takes just a few minutes. Choose your preferred plan (Monthly at £9.99, Annual at £59, or Family at £129.99), then contact us via WhatsApp. We will process your subscription and send you your login credentials and setup instructions. You can be watching live TV within 5 minutes of subscribing.",
+  },
+] as const;
 
 export function buildHomepageSchema() {
   return {
@@ -202,16 +312,17 @@ export function buildHomepageSchema() {
     "@graph": [
       buildWebSiteSchema(),
       buildOrganizationSchema(),
-      buildBreadcrumbSchema([
-        { name: "Home", url: SITE_URL },
-      ]),
+      buildBreadcrumbSchema([{ name: "Home", url: SITE_URL }]),
       buildWebPageSchema({
         name: "IPTV UK Subscription | #1 Premium IPTV Service in the UK",
         description:
-          "Premium IPTV UK subscription with 30,000+ channels, 4K quality, and 99.9% uptime. Watch live UK sports, Sky Sports, Premier League, and more from £9.99/mo.",
+          "Premium IPTV UK subscription with 30,000+ channels, 100,000+ VODs, 4K quality, and 99.9% uptime. Watch live UK sports, Sky Sports, Premier League, and more from £9.99/mo.",
         url: SITE_URL,
+        datePublished: "2026-04-01",
+        dateModified: "2026-04-06",
       }),
       buildServiceSchema(),
+      buildFAQSchema(HOMEPAGE_FAQ_ITEMS),
     ],
   };
 }

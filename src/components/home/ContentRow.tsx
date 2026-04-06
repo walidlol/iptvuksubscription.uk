@@ -56,7 +56,7 @@ export default function ContentRow({
           <button
             type="button"
             onClick={() => scroll("left")}
-            className="absolute left-0 top-0 bottom-0 z-20 w-12 bg-gradient-to-r from-bg-primary/80 to-transparent flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity duration-200"
+            className="absolute left-0 top-0 bottom-0 z-20 w-12 bg-gradient-to-r from-[rgba(12,13,18,0.85)] to-transparent flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity duration-200"
             aria-label="Scroll left"
           >
             <svg
@@ -80,7 +80,7 @@ export default function ContentRow({
           <button
             type="button"
             onClick={() => scroll("right")}
-            className="absolute right-0 top-0 bottom-0 z-20 w-12 bg-gradient-to-l from-bg-primary/80 to-transparent flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity duration-200"
+            className="absolute right-0 top-0 bottom-0 z-20 w-12 bg-gradient-to-l from-[rgba(12,13,18,0.85)] to-transparent flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-opacity duration-200"
             aria-label="Scroll right"
           >
             <svg

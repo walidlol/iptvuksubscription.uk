@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="IPTV UK Subscription">
+  <!-- Outer circle — glass border -->
+  <circle cx="50" cy="50" r="48" fill="#0C0D12" stroke="rgba(255,255,255,0.14)" stroke-width="1.2"/>
+
+  <!-- Inner glass ring — subtle depth -->
+  <circle cx="50" cy="50" r="36" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+
+  <!-- Broadcast / signal arcs — anchored at base point (50, 71) -->
+  <!-- Outer arc — radius 30, faintest -->
+  <path d="M 28.8 49.8 A 30 30 0 0 1 71.2 49.8"
+        stroke="rgba(255,255,255,0.18)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Middle arc — radius 20 -->
+  <path d="M 35.9 56.9 A 20 20 0 0 1 64.1 56.9"
+        stroke="rgba(255,255,255,0.48)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Inner arc — radius 11, brightest -->
+  <path d="M 42.2 63.2 A 11 11 0 0 1 57.8 63.2"
+        stroke="rgba(255,255,255,0.92)" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Base dot — brand red accent -->
+  <circle cx="50" cy="71" r="4" fill="#E8392A"/>
+  <!-- Dot highlight -->
+  <circle cx="49" cy="69.5" r="1.2" fill="rgba(255,255,255,0.40)"/>
+
+  <!-- Top-edge glass sheen -->
+  <ellipse cx="50" cy="14" rx="22" ry="4" fill="rgba(255,255,255,0.06)"/>
+</svg>

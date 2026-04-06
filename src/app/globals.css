@@ -23,6 +23,11 @@
   /* Accent — white only. Red (#E8392A) reserved for LIVE dots + error states */
   --accent: #ffffff;
 
+  /* Cinematic gradient (Dynamic Gradient — #040405 → #183949, light from bottom-right) */
+  --cinematic-dark:  #040405;
+  --cinematic-teal:  #183949;
+  --gradient-cinematic: linear-gradient(to top left, #183949 0%, #040405 65%);
+
   /* Computed glass effect shorthands */
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   --glass-inner:  inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
@@ -163,4 +168,20 @@
     background: #e8392a;
     animation: pulse-live 1.5s ease-in-out infinite;
   }
+}
+
+/* ─── Keyframes ─── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes fade-up {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }

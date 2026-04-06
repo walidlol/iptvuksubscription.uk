@@ -33,7 +33,7 @@ const PLANS: readonly Plan[] = [
       { text: "EPG TV Guide", included: true },
       { text: "1 Device Connection", included: true },
       { text: "24/7 Support", included: true },
-      { text: "VOD Library", included: false },
+      { text: "100,000+ VOD Library", included: false },
     ],
     waMessage: WA_MESSAGES.monthly,
   },
@@ -50,7 +50,7 @@ const PLANS: readonly Plan[] = [
       { text: "EPG TV Guide", included: true },
       { text: "2 Device Connections", included: true },
       { text: "24/7 Priority Support", included: true },
-      { text: "50,000+ VOD Library", included: true },
+      { text: "100,000+ VOD Library", included: true },
     ],
     waMessage: WA_MESSAGES.annual,
   },
@@ -67,7 +67,7 @@ const PLANS: readonly Plan[] = [
       { text: "EPG TV Guide", included: true },
       { text: "4 Device Connections", included: true },
       { text: "24/7 VIP Support", included: true },
-      { text: "50,000+ VOD Library", included: true },
+      { text: "100,000+ VOD Library", included: true },
     ],
     waMessage: WA_MESSAGES.family,
   },
@@ -105,12 +105,20 @@ function CrossIcon() {
   );
 }
 
+const EASE = [0.25, 0.1, 0.25, 1] as const;
+
 export default function PricingCards() {
   return (
     <section id="pricing" className="bg-bg-surface py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="text-center mb-12"
+        >
           <h2 className="font-heading text-section-h2 uppercase text-text-primary">
             Choose Your Plan
           </h2>
@@ -118,25 +126,28 @@ export default function PricingCards() {
             Premium IPTV UK subscription plans with instant activation via
             WhatsApp. Cancel anytime.
           </p>
-        </div>
+        </motion.div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
-          {PLANS.map((plan) => (
+          {PLANS.map((plan, i) => (
             <motion.div
               key={plan.id}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -60px 0px" }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
               whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               className={`relative flex flex-col rounded-xl border p-6 lg:p-8 transition-shadow ${
                 plan.popular
-                  ? "border-brand-red bg-bg-elevated shadow-brand-glow scale-[1.02]"
-                  : "border-border bg-bg-elevated/50"
+                  ? "border-live bg-[rgba(255,255,255,0.08)] shadow-glass-hover scale-[1.02]"
+                  : "border-border-glass bg-[rgba(255,255,255,0.04)]"
               }`}
             >
               {/* Popular Badge */}
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="px-4 py-1 bg-brand-red text-text-primary text-xs font-semibold rounded-full uppercase tracking-wider">
+                  <span className="px-4 py-1 bg-live text-white text-xs font-semibold rounded-full uppercase tracking-wider">
                     Most Popular
                   </span>
                 </div>
@@ -156,7 +167,7 @@ export default function PricingCards() {
               </div>
 
               {/* Divider */}
-              <div className="mt-6 mb-6 h-px bg-border" />
+              <div className="mt-6 mb-6 h-px bg-border-glass" />
 
               {/* Features */}
               <ul className="space-y-3 flex-1">
@@ -177,7 +188,7 @@ export default function PricingCards() {
               </ul>
 
               {/* CTA */}
-              <div className="mt-8">
+              <div className="mt-8 space-y-3">
                 <WhatsAppButton
                   message={plan.waMessage}
                   variant={plan.popular ? "primary" : "secondary"}
@@ -186,6 +197,14 @@ export default function PricingCards() {
                 >
                   Subscribe via WhatsApp
                 </WhatsAppButton>
+                <p className="text-center">
+                  <a
+                    href="/plans/advanced#crypto"
+                    className="text-xs text-text-muted hover:text-text-secondary transition-colors"
+                  >
+                    Pay with Crypto (BTC / USDT / ETH)
+                  </a>
+                </p>
               </div>
             </motion.div>
           ))}

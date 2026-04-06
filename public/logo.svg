@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" fill="none" role="img" aria-label="IPTV UK Subscription">
+  <!-- ── Icon mark (72×72, centred at cx=36,cy=36) ── -->
+  <circle cx="36" cy="36" r="34" fill="#0C0D12" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <circle cx="36" cy="36" r="25" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.6"/>
+
+  <!-- Broadcast arcs from base (36, 51) -->
+  <!-- Outer arc r=21 -->
+  <path d="M 21.2 36.2 A 21 21 0 0 1 50.8 36.2"
+        stroke="rgba(255,255,255,0.18)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <!-- Middle arc r=14 -->
+  <path d="M 26.1 41.1 A 14 14 0 0 1 45.9 41.1"
+        stroke="rgba(255,255,255,0.48)" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Inner arc r=8 -->
+  <path d="M 30.3 45.3 A 8 8 0 0 1 41.7 45.3"
+        stroke="rgba(255,255,255,0.90)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <!-- Red dot -->
+  <circle cx="36" cy="51" r="3" fill="#E8392A"/>
+  <circle cx="35.2" cy="49.8" r="0.9" fill="rgba(255,255,255,0.38)"/>
+
+  <!-- ── Wordmark ── -->
+  <!-- "IPTV" — primary white -->
+  <text x="84" y="38"
+        font-family="'Bebas Neue', 'Arial Black', Arial, sans-serif"
+        font-size="30" font-weight="400" fill="#F2F2F7"
+        letter-spacing="3" dominant-baseline="auto">IPTV</text>
+
+  <!-- "UK" — slightly muted, same size -->
+  <text x="166" y="38"
+        font-family="'Bebas Neue', 'Arial Black', Arial, sans-serif"
+        font-size="30" font-weight="400" fill="rgba(242,242,247,0.55)"
+        letter-spacing="3" dominant-baseline="auto">UK</text>
+
+  <!-- Divider dot -->
+  <circle cx="160" cy="25" r="2" fill="rgba(232,57,42,0.70)"/>
+
+  <!-- Tagline "SUBSCRIPTION" -->
+  <text x="84" y="54"
+        font-family="'Inter', Arial, sans-serif"
+        font-size="8" font-weight="500" fill="rgba(184,184,192,0.60)"
+        letter-spacing="3.5" dominant-baseline="auto">SUBSCRIPTION</text>
+
+  <!-- Separator line under wordmark -->
+  <line x1="84" y1="58" x2="210" y2="58"
+        stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+</svg>

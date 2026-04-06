@@ -1,15 +1,15 @@
 "use client";
 
 import { motion, type Easing } from "framer-motion";
-import Link from "next/link";
-
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "447451296412";
+import { Tv, Film, Zap, Shield } from "lucide-react";
+import GlassButton from "@/components/ui/GlassButton";
+import { waLink, WA_MESSAGES } from "@/lib/wa";
 
 const TRUST_BADGES = [
-  { label: "30,000+ Channels", icon: "📡" },
-  { label: "4K Quality", icon: "✨" },
-  { label: "99.9% Uptime", icon: "⚡" },
-  { label: "24/7 Support", icon: "🛡️" },
+  { label: "30,000+ Channels", Icon: Tv },
+  { label: "100,000+ VODs", Icon: Film },
+  { label: "4K Quality", Icon: Zap },
+  { label: "99.9% Uptime", Icon: Shield },
 ] as const;
 
 const EASE: Easing = [0.25, 0.1, 0.25, 1];
@@ -27,19 +27,19 @@ function fadeUp(delay: number) {
 
 export default function HeroClient() {
   const subtitle = fadeUp(0.2);
-  const buttons = fadeUp(0.4);
-  const badges = fadeUp(0.6);
+  const buttons = fadeUp(0.35);
+  const badges = fadeUp(0.5);
 
   return (
     <>
-      {/* Subtitle */}
+      {/* Subtitle — fade up after H1 */}
       <motion.p
         initial={subtitle.initial}
         animate={subtitle.animate}
-        className="mt-4 text-base sm:text-lg text-text-secondary max-w-xl leading-relaxed"
+        className="mt-5 text-base sm:text-lg text-[#B8B8C0] max-w-xl leading-relaxed"
       >
-        Your premium IPTV UK subscription for live sports, Sky Sports,
-        Premier League, movies, and 30,000+ channels in stunning 4K quality.
+        Premium IPTV UK subscription — 30,000+ live channels, 100,000+ VODs
+        including movies, sports events &amp; UFC, in stunning 4K from £9.99/mo.
       </motion.p>
 
       {/* CTA Buttons */}
@@ -48,39 +48,41 @@ export default function HeroClient() {
         animate={buttons.animate}
         className="mt-8 flex flex-col sm:flex-row gap-4"
       >
-        <Link
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi, I'd like to get started with the IPTV UK subscription at £9.99/mo.")}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-8 py-3.5 bg-brand-red hover:bg-brand-red-hover text-text-primary font-semibold rounded-lg transition-colors text-center shadow-brand-glow hover:shadow-lg"
+        <GlassButton
+          href={waLink(WA_MESSAGES.getStarted)}
+          variant="primary"
+          size="lg"
         >
-          Get Started &mdash; &pound;9.99/mo
-        </Link>
-        <Link
-          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi, I'd like to try a free trial of your IPTV UK service.")}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-8 py-3.5 border border-border text-text-primary font-medium rounded-lg hover:bg-bg-elevated/50 transition-colors text-center backdrop-blur-sm"
+          Start Watching — £9.99/mo
+        </GlassButton>
+
+        <GlassButton
+          href={waLink(WA_MESSAGES.freeTrial)}
+          variant="secondary"
+          size="lg"
         >
           Free Trial via WhatsApp
-        </Link>
+        </GlassButton>
       </motion.div>
 
       {/* Trust Badges */}
       <motion.div
         initial={badges.initial}
         animate={badges.animate}
-        className="mt-10 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3"
+        className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3"
       >
-        {TRUST_BADGES.map((badge) => (
+        {TRUST_BADGES.map(({ label, Icon }, i) => (
           <div
-            key={badge.label}
-            className="flex items-center gap-2 text-sm text-text-muted"
+            key={label}
+            className="flex items-center gap-2 text-sm text-[#B8B8C0]"
           >
-            <span className="text-base" aria-hidden="true">
-              {badge.icon}
-            </span>
-            <span>{badge.label}</span>
+            <Icon size={14} className="text-white/60 shrink-0" aria-hidden />
+            <span>{label}</span>
+            {i < TRUST_BADGES.length - 1 && (
+              <span className="ml-3 text-white/20 select-none" aria-hidden>
+                ·
+              </span>
+            )}
           </div>
         ))}
       </motion.div>

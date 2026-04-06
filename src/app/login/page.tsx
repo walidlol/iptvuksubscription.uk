@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import OTPForm from "@/components/auth/OTPForm";
+import Image from "next/image";
+import LoginForm from "@/components/auth/LoginForm";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -10,26 +11,60 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen bg-bg-primary flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        {/* Header */}
+    <main className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* ── Full-screen video background ── */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        className="absolute inset-0 w-full h-full object-cover"
+        aria-hidden="true"
+      >
+        <source src="/login-bg.mp4" type="video/mp4" />
+      </video>
+
+      {/* ── Dark overlay ── */}
+      <div
+        className="absolute inset-0"
+        style={{ background: "rgba(0, 0, 0, 0.6)" }}
+      />
+
+      {/* ── Subtle cinematic gradient on top ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(24,57,73,0.25) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* ── Centered glass card ── */}
+      <div className="relative z-10 w-full max-w-md px-4">
+        {/* Logo + tagline */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-red mb-4">
-            <span className="font-heading text-2xl text-text-primary leading-none">
-              TV
-            </span>
+          <div className="inline-block mb-4">
+            <Image
+              src="/icon.png"
+              width={56}
+              height={56}
+              alt="IPTV UK Subscription"
+              className="rounded-full"
+              priority
+            />
           </div>
           <h1 className="font-heading text-3xl tracking-wider text-text-primary uppercase">
-            Sign In
+            IPTV UK
           </h1>
-          <p className="mt-2 text-sm text-text-muted">
-            Verify your phone number to access premium content
+          <p className="mt-2 text-text-secondary text-sm">
+            Your streaming universe awaits
           </p>
         </div>
 
-        {/* Card */}
-        <div className="bg-bg-surface border border-border rounded-xl p-6 sm:p-8">
-          <OTPForm />
+        {/* LiquidGlass form card */}
+        <div className="glass p-6 sm:p-8">
+          <LoginForm />
         </div>
 
         {/* Footer note */}
