@@ -5,6 +5,7 @@ import { Clock } from "lucide-react";
 import CinematicShapes from "@/components/ui/CinematicShapes";
 import { BLOG_POSTS, getPostBySlug, SITE_URL } from "@/data/blogPosts";
 import { buildArticleSchema, buildBreadcrumbSchema } from "@/lib/schema";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 
 interface Props {
   readonly params: { slug: string };
@@ -142,6 +143,9 @@ export default function BlogPostPage({ params }: Props) {
               View Plans →
             </Link>
           </div>
+
+          {/* Related Posts */}
+          <RelatedPosts currentSlug={post.slug} posts={BLOG_POSTS} />
 
           {/* Back to blog */}
           <div className="mt-8">

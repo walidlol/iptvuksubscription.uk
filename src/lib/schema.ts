@@ -138,6 +138,40 @@ export function buildServiceSchema() {
       bestRating: "5",
       worstRating: "1",
     },
+    review: [
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "James Wilson" },
+        datePublished: "2026-03-15",
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "The Premier League streams are flawless — every kick-off on time, full HD, zero buffering. Cancelled Sky Sports the same day I signed up. Best IPTV UK subscription I've used by far.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Sarah Thompson" },
+        datePublished: "2026-03-20",
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "Set up in under 5 minutes on my Firestick. The 7-day catch-up feature alone is worth it. Crystal clear picture and not a single buffering issue in two months.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "David Clark" },
+        datePublished: "2026-03-25",
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "Brilliant value. The VOD library is massive — more films than Netflix and Amazon combined. Been a subscriber for eight months with zero outages during live football.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Emma Roberts" },
+        datePublished: "2026-04-01",
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody:
+          "Kids' channels, news, sports — all on one subscription across every screen in the house. Couldn't be happier. The WhatsApp support team is incredibly helpful too.",
+      },
+    ],
   };
 }
 

@@ -8,6 +8,11 @@ import PricingCards from "@/components/home/PricingCards";
 import DeviceSection from "@/components/home/DeviceSection";
 import FAQSection from "@/components/home/FAQSection";
 import FinalCTA from "@/components/home/FinalCTA";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
+import ContentComparisonSection from "@/components/home/ContentComparisonSection";
+import LatestBlogSection from "@/components/home/LatestBlogSection";
+import SetupVideoSection from "@/components/home/SetupVideoSection";
 import { buildHomepageSchema } from "@/lib/schema";
 import {
   getUKDrama,
@@ -132,6 +137,12 @@ export default function Home() {
         <LiveSports />
       </Suspense>
 
+      {/* 3b. FEATURES — 6 feature cards (bg-primary) */}
+      <FeaturesSection />
+
+      {/* 3c. SETUP VIDEO — YouTube embed + 4-step guide (bg-primary alternated) */}
+      <SetupVideoSection />
+
       {/* Teal section divider */}
       <div className="teal-divider" />
 
@@ -163,11 +174,20 @@ export default function Home() {
       {/* 6. DEVICES — 4 device categories */}
       <DeviceSection />
 
+      {/* 6b. TESTIMONIALS — 4 customer reviews (bg-primary) */}
+      <TestimonialsSection />
+
       {/* Teal section divider */}
       <div className="teal-divider" />
 
       {/* 7. FAQ — 6 questions, glass accordion + FAQPage schema */}
       <FAQSection />
+
+      {/* 7b. COMPARISON — content library comparison table (bg-surface) */}
+      <ContentComparisonSection />
+
+      {/* 7c. LATEST BLOG — horizontal scroll blog cards (bg-primary) */}
+      <LatestBlogSection />
 
       {/* 8. FINAL CTA — glass button, "Start Watching Today" */}
       <FinalCTA />

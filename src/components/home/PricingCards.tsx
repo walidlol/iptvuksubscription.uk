@@ -1,8 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import WhatsAppGate from "@/components/ui/WhatsAppGate";
 import { WA_MESSAGES } from "@/lib/wa";
+
+// ── 3-D tilt wrapper ──────────────────────────────────────────────────────────
+function TiltCard({ children, className }: { children: React.ReactNode; className: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(rawY, [-0.5, 0.5], [10, -10]), { stiffness: 280, damping: 28 });
+  const rotateY = useSpring(useTransform(rawX, [-0.5, 0.5], [-10, 10]), { stiffness: 280, damping: 28 });
+
+  function onMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    rawX.set((e.clientX - rect.left) / rect.width - 0.5);
+    rawY.set((e.clientY - rect.top) / rect.height - 0.5);
+  }
+  function onLeave() { rawX.set(0); rawY.set(0); }
+
+  return (
+    <div style={{ perspective: "900px" }}>
+      <motion.div
+        ref={ref}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
 
 interface PlanFeature {
   readonly text: string;
@@ -141,10 +173,12 @@ export default function PricingCards() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -60px 0px" }}
               transition={{ duration: 0.5, delay: i * 0.1, ease: EASE }}
-              whileHover={{ y: -8 }}
+              className={plan.popular ? "scale-[1.02]" : ""}
+            >
+            <TiltCard
               className={`relative flex flex-col rounded-xl border p-6 lg:p-8 transition-shadow ${
                 plan.popular
-                  ? "border-[rgba(24,57,73,0.6)] bg-[rgba(255,255,255,0.08)] shadow-glass-hover shadow-teal-glow-sm scale-[1.02]"
+                  ? "border-[rgba(24,57,73,0.6)] bg-[rgba(255,255,255,0.08)] shadow-glass-hover shadow-teal-glow-sm"
                   : "border-border-glass bg-[rgba(255,255,255,0.04)]"
               }`}
             >
@@ -210,6 +244,7 @@ export default function PricingCards() {
                   </a>
                 </p>
               </div>
+            </TiltCard>
             </motion.div>
           ))}
         </div>

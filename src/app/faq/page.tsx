@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import FAQContent from "./FAQContent";
 import { FAQ_ITEMS } from "./faqData";
+import FinalCTA from "@/components/home/FinalCTA";
 
 const SITE_URL = "https://iptvuksubscription.uk";
 
@@ -37,12 +38,15 @@ const faqSchema = {
 
 export default function FAQPage() {
   return (
-    <main className="min-h-screen bg-bg-primary pt-24 pb-20">
+    <main className="min-h-screen bg-bg-primary">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <FAQContent />
+      <div className="pt-24 pb-20">
+        <FAQContent />
+      </div>
+      <FinalCTA />
     </main>
   );
 }

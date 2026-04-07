@@ -4,6 +4,7 @@ import { Clock } from "lucide-react";
 import CinematicShapes from "@/components/ui/CinematicShapes";
 import { BLOG_POSTS, SITE_URL } from "@/data/blogPosts";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import FinalCTA from "@/components/home/FinalCTA";
 
 export const metadata: Metadata = {
   title: "IPTV UK Blog — Guides, Tips & News",
@@ -98,6 +99,8 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
+
+      <FinalCTA />
     </main>
   );
 }

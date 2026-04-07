@@ -4,6 +4,7 @@ import { Mail, Clock } from "lucide-react";
 import CinematicShapes from "@/components/ui/CinematicShapes";
 import WhatsAppContactCard from "./WhatsAppContactCard";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import FinalCTA from "@/components/home/FinalCTA";
 
 const SITE_URL = "https://iptvuksubscription.uk";
 
@@ -110,6 +111,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FinalCTA />
     </main>
   );
 }

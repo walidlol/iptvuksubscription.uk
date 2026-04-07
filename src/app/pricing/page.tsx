@@ -6,6 +6,7 @@ import CinematicShapes from "@/components/ui/CinematicShapes";
 import CryptoPayButtons from "@/components/pricing/CryptoPayButtons";
 import { buildBreadcrumbSchema, buildOfferSchema } from "@/lib/schema";
 import { WA_MESSAGES } from "@/lib/wa";
+import FinalCTA from "@/components/home/FinalCTA";
 
 const SITE_URL = "https://iptvuksubscription.uk";
 
@@ -266,6 +267,8 @@ export default function PricingPage() {
           </p>
         </div>
       </section>
+
+      <FinalCTA />
     </main>
   );
 }
